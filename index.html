@@ -193,6 +193,22 @@ footer{background:#2d2d2d;border-top:1px solid rgba(255,255,255,0.05);padding:60
 .footer-col a:hover{color:#fff}
 .footer-bottom{border-top:1px solid rgba(255,255,255,0.05);padding-top:24px;text-align:center;color:#999;font-size:0.85rem}
 
+/* EXIT INTENT POPUP */
+.exit-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.exit-overlay.show{display:flex}
+.exit-popup{background:#fff;border-radius:16px;padding:48px 40px;max-width:500px;width:90%;position:relative;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+.exit-popup .close-popup{position:absolute;top:16px;right:20px;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--gray);transition:var(--transition)}
+.exit-popup .close-popup:hover{color:var(--gray-dark)}
+.exit-popup h2{font-family:var(--font-head);font-size:1.6rem;color:var(--gray-dark);margin-bottom:8px}
+.exit-popup p{color:var(--gray);margin-bottom:24px;font-size:0.95rem}
+.exit-popup .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;text-align:left}
+.exit-popup .form-group{display:flex;flex-direction:column;gap:4px}
+.exit-popup .form-group.full{grid-column:1/-1}
+.exit-popup .form-group label{font-size:0.8rem;font-weight:500;color:var(--gray)}
+.exit-popup .form-group input,.exit-popup .form-group select{background:#f5f5f5;border:1px solid #e0e0e0;border-radius:8px;padding:12px 14px;color:var(--gray-dark);font-family:var(--font-body);font-size:0.9rem;transition:var(--transition);outline:none}
+.exit-popup .form-group input:focus,.exit-popup .form-group select:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(140,49,36,0.1)}
+@media(max-width:500px){.exit-popup .form-grid{grid-template-columns:1fr}.exit-popup{padding:32px 24px}}
+
 /* WHATSAPP FLOAT */
 .wa-float{position:fixed;bottom:28px;right:28px;z-index:999;width:60px;height:60px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.8rem;box-shadow:0 4px 20px rgba(37,211,102,0.4);transition:var(--transition);animation:pulse-wa 2s infinite}
 .wa-float:hover{transform:scale(1.1);box-shadow:0 6px 30px rgba(37,211,102,0.5)}
@@ -232,7 +248,7 @@ body.lang-es [data-lang-es]{display:revert}
 <!-- NAV -->
 <nav>
 <div class="container">
-<a href="#" class="logo">B2B <span>Languages</span></a>
+<a href="#" class="logo"><img src="logo.jpg" alt="B2B Languages" style="height:48px;border-radius:8px"></a>
 <ul class="nav-links" id="navLinks">
 <li><a href="#solucoes" data-lang-pt>Soluções</a><a href="#solucoes" data-lang-en>Solutions</a><a href="#solucoes" data-lang-es>Soluciones</a></li>
 <li><a href="#metodo" data-lang-pt>Método</a><a href="#metodo" data-lang-en>Method</a><a href="#metodo" data-lang-es>Método</a></li>
@@ -246,7 +262,7 @@ body.lang-es [data-lang-es]{display:revert}
 <button class="lang-btn" data-setlang="es">🇪🇸 ES</button>
 </div>
 </li>
-<li><button class="nav-cta" onclick="document.getElementById('contato').scrollIntoView({behavior:'smooth'})"><span data-lang-pt>Fale Conosco</span><span data-lang-en>Contact Us</span><span data-lang-es>Contáctenos</span></button></li>
+<li><a href="teste.html" class="nav-cta"><span data-lang-pt>Teste seu Nível</span><span data-lang-en>Test your Level</span><span data-lang-es>Pruebe su Nivel</span></a></li>
 </ul>
 <button class="hamburger" id="hamburger" aria-label="Menu"><i class="fas fa-bars"></i></button>
 </div>
@@ -264,8 +280,8 @@ body.lang-es [data-lang-es]{display:revert}
 <p data-lang-en>Our priority is to ensure that everything learned in class today is applied to work tomorrow. Excellence in foreign language training for business.</p>
 <p data-lang-es>Nuestra prioridad es garantizar que todo lo aprendido hoy en clase se utilice para el trabajo mañana. Soluciones de excelencia para la formación de idiomas extranjeros para negocios.</p>
 <div class="hero-btns">
-<button class="btn-primary" onclick="document.getElementById('contato').scrollIntoView({behavior:'smooth'})"><i class="fas fa-rocket"></i> <span data-lang-pt>Fale Conosco</span><span data-lang-en>Contact Us</span><span data-lang-es>Contáctenos</span></button>
-<button class="btn-secondary" onclick="document.getElementById('solucoes').scrollIntoView({behavior:'smooth'})"><span data-lang-pt>Conheça nossos planos</span><span data-lang-en>See our plans</span><span data-lang-es>Conoce nuestros planes</span> <i class="fas fa-arrow-down"></i></button>
+<a href="teste.html" class="btn-primary"><i class="fas fa-clipboard-check"></i> <span data-lang-pt>Teste seu Nível</span><span data-lang-en>Test your Level</span><span data-lang-es>Pruebe su Nivel</span></a>
+<button class="btn-secondary" onclick="document.getElementById('solucoes').scrollIntoView({behavior:'smooth'})"><span data-lang-pt>Nossas Soluções</span><span data-lang-en>Our Solutions</span><span data-lang-es>Nuestras Soluciones</span> <i class="fas fa-arrow-down"></i></button>
 </div>
 </div>
 </div>
@@ -529,55 +545,26 @@ body.lang-es [data-lang-es]{display:revert}
 <!-- CONTACT -->
 <section id="contato">
 <div class="container">
-<div class="reveal">
+<div class="reveal" style="text-align:center">
 <p class="section-label" data-lang-pt>Contato</p>
 <p class="section-label" data-lang-en>Contact</p>
 <p class="section-label" data-lang-es>Contacto</p>
-<h2 class="section-title" data-lang-pt>Fale com a gente</h2>
-<h2 class="section-title" data-lang-en>Get in touch</h2>
-<h2 class="section-title" data-lang-es>Contáctenos</h2>
-<p class="section-subtitle" data-lang-pt>Preencha o formulário ou fale diretamente pelo WhatsApp. Respondemos em até 2 horas.</p>
-<p class="section-subtitle" data-lang-en>Fill out the form or reach us directly via WhatsApp. We respond within 2 hours.</p>
-<p class="section-subtitle" data-lang-es>Complete el formulario o contáctenos directamente por WhatsApp. Respondemos en hasta 2 horas.</p>
+<h2 class="section-title" style="margin:0 auto" data-lang-pt>Fale com a gente</h2>
+<h2 class="section-title" style="margin:0 auto" data-lang-en>Get in touch</h2>
+<h2 class="section-title" style="margin:0 auto" data-lang-es>Contáctenos</h2>
+<p class="section-subtitle" style="margin:0 auto" data-lang-pt>Entre em contato pelo telefone, email ou WhatsApp.</p>
+<p class="section-subtitle" style="margin:0 auto" data-lang-en>Reach us by phone, email, or WhatsApp.</p>
+<p class="section-subtitle" style="margin:0 auto" data-lang-es>Contáctenos por teléfono, email o WhatsApp.</p>
+<div style="margin-top:40px;display:flex;flex-wrap:wrap;gap:32px;justify-content:center">
+<div style="text-align:center">
+<i class="fas fa-phone" style="font-size:1.5rem;color:var(--red);margin-bottom:12px"></i>
+<p style="font-weight:600;color:var(--gray-dark)">(11) 5589-2097</p>
 </div>
-<form class="form-grid reveal" id="contactForm">
-<div class="form-group">
-<label data-lang-pt>Nome</label><label data-lang-en>Name</label><label data-lang-es>Nombre</label>
-<input type="text" name="name" required>
+<div style="text-align:center">
+<i class="fas fa-envelope" style="font-size:1.5rem;color:var(--red);margin-bottom:12px"></i>
+<p><a href="mailto:contato@b2blanguages.com.br" style="font-weight:600;color:var(--gray-dark)">contato@b2blanguages.com.br</a></p>
 </div>
-<div class="form-group">
-<label>Email</label>
-<input type="email" name="email" required>
 </div>
-<div class="form-group">
-<label data-lang-pt>Telefone</label><label data-lang-en>Phone</label><label data-lang-es>Teléfono</label>
-<input type="tel" name="phone">
-</div>
-<div class="form-group">
-<label data-lang-pt>Empresa</label><label data-lang-en>Company</label><label data-lang-es>Empresa</label>
-<input type="text" name="company">
-</div>
-<div class="form-group full">
-<label data-lang-pt>Idioma de interesse</label><label data-lang-en>Language of interest</label><label data-lang-es>Idioma de interés</label>
-<select name="language" required>
-<option value="" data-lang-pt>Selecione...</option><option value="" data-lang-en>Select...</option><option value="" data-lang-es>Seleccione...</option>
-<option value="english" data-lang-pt>Inglês</option><option value="english" data-lang-en>English</option><option value="english" data-lang-es>Inglés</option>
-<option value="spanish" data-lang-pt>Espanhol</option><option value="spanish" data-lang-en>Spanish</option><option value="spanish" data-lang-es>Español</option>
-<option value="both" data-lang-pt>Ambos</option><option value="both" data-lang-en>Both</option><option value="both" data-lang-es>Ambos</option>
-</select>
-</div>
-<div class="form-group full">
-<label data-lang-pt>Mensagem</label><label data-lang-en>Message</label><label data-lang-es>Mensaje</label>
-<textarea name="message" rows="4"></textarea>
-</div>
-<div class="form-group full">
-<button type="submit" class="btn-primary" style="width:100%;justify-content:center"><i class="fas fa-paper-plane"></i> <span data-lang-pt>Enviar Mensagem</span><span data-lang-en>Send Message</span><span data-lang-es>Enviar Mensaje</span></button>
-</div>
-</form>
-<div class="form-success" id="contactSuccess">
-<i class="fas fa-check-circle"></i>
-<h3 data-lang-pt>Mensagem enviada!</h3><h3 data-lang-en>Message sent!</h3><h3 data-lang-es>¡Mensaje enviado!</h3>
-<p data-lang-pt>Entraremos em contato em breve. Obrigado!</p><p data-lang-en>We'll get back to you soon. Thank you!</p><p data-lang-es>Nos pondremos en contacto pronto. ¡Gracias!</p>
 </div>
 <div style="text-align:center;margin-top:40px;">
 <a href="https://wa.me/5511558920997" target="_blank" class="wa-section-btn">
@@ -656,7 +643,7 @@ body.lang-es [data-lang-es]{display:revert}
 <div class="container">
 <div class="footer-grid">
 <div class="footer-brand">
-<div class="logo">B2B <span>Languages</span></div>
+<div class="logo"><img src="logo.jpg" alt="B2B Languages" style="height:48px;border-radius:8px"></div>
 <p data-lang-pt>[Descrição da empresa no rodapé]</p>
 <p data-lang-en>[Footer company description]</p>
 <p data-lang-es">Escuela de inglés y español corporativo en São Paulo. Transformando la comunicación de profesionales y empresas hace más de [X] años.</p>
@@ -695,6 +682,44 @@ body.lang-es [data-lang-es]{display:revert}
 <i class="fab fa-whatsapp"></i>
 </a>
 
+<!-- EXIT INTENT POPUP -->
+<div class="exit-overlay" id="exitOverlay">
+<div class="exit-popup">
+<button class="close-popup" id="closeExit"><i class="fas fa-times"></i></button>
+<h2 data-lang-pt>Antes de ir, que tal testar seu nível?</h2>
+<h2 data-lang-en>Before you go, test your level?</h2>
+<h2 data-lang-es>¿Antes de irse, pruebe su nivel?</h2>
+<p data-lang-pt>Deixe seus dados e agende um teste de nível gratuito. Vamos montar um plano personalizado para você.</p>
+<p data-lang-en>Leave your details and schedule a free level test. We'll create a personalized plan for you.</p>
+<p data-lang-es>Deje sus datos y agende una prueba de nivel gratuita. Crearemos un plan personalizado para usted.</p>
+<form class="form-grid" id="exitForm">
+<div class="form-group">
+<label data-lang-pt>Nome</label><label data-lang-en>Name</label><label data-lang-es>Nombre</label>
+<input type="text" name="name" required>
+</div>
+<div class="form-group">
+<label>Email</label>
+<input type="email" name="email" required>
+</div>
+<div class="form-group">
+<label data-lang-pt>Telefone</label><label data-lang-en>Phone</label><label data-lang-es>Teléfono</label>
+<input type="tel" name="phone" required>
+</div>
+<div class="form-group">
+<label data-lang-pt>Idioma</label><label data-lang-en>Language</label><label data-lang-es>Idioma</label>
+<select name="language" required>
+<option value="" data-lang-pt>Selecione...</option><option value="" data-lang-en>Select...</option><option value="" data-lang-es>Seleccione...</option>
+<option value="english" data-lang-pt>Inglês</option><option value="english" data-lang-en>English</option><option value="english" data-lang-es>Inglés</option>
+<option value="spanish" data-lang-pt>Espanhol</option><option value="spanish" data-lang-en>Spanish</option><option value="spanish" data-lang-es>Español</option>
+</select>
+</div>
+<div class="form-group full">
+<button type="submit" class="btn-primary" style="width:100%;justify-content:center"><i class="fas fa-clipboard-check"></i> <span data-lang-pt>Quero testar meu nível</span><span data-lang-en>I want to test my level</span><span data-lang-es>Quiero probar mi nivel</span></button>
+</div>
+</form>
+</div>
+</div>
+
 <script>
 // Language Switcher
 function setLang(lang) {
@@ -720,19 +745,38 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// Contact Form
-document.getElementById('contactForm').addEventListener('submit', async function(e) {
+// Exit Intent Popup
+let exitShown = false;
+document.addEventListener('mouseout', function(e) {
+  if (e.clientY < 5 && !exitShown) {
+    exitShown = true;
+    document.getElementById('exitOverlay').classList.add('show');
+  }
+});
+// Also trigger on mobile after 45s
+setTimeout(function() {
+  if (!exitShown && /Mobi|Android/i.test(navigator.userAgent)) {
+    exitShown = true;
+    document.getElementById('exitOverlay').classList.add('show');
+  }
+}, 45000);
+document.getElementById('closeExit').addEventListener('click', function() {
+  document.getElementById('exitOverlay').classList.remove('show');
+});
+document.getElementById('exitOverlay').addEventListener('click', function(e) {
+  if (e.target === this) this.classList.remove('show');
+});
+
+// Exit Form Submit
+document.getElementById('exitForm').addEventListener('submit', async function(e) {
   e.preventDefault();
   const fd = new FormData(this);
-  const data = { name: fd.get('name'), email: fd.get('email'), phone: fd.get('phone'), company: fd.get('company'), language: fd.get('language'), message: fd.get('message'), source: 'b2blanguages.com.br', timestamp: new Date().toISOString() };
+  const data = { name: fd.get('name'), email: fd.get('email'), phone: fd.get('phone'), language: fd.get('language'), source: 'b2blanguages.com.br', type: 'level_test', timestamp: new Date().toISOString() };
   try {
     await fetch('https://n8n.lfsadigital.com/webhook/b2b-contact-form', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
   } catch(e) {}
-  this.style.display = 'none';
-  document.getElementById('contactSuccess').style.display = 'block';
+  this.innerHTML = '<div style="text-align:center;padding:20px"><i class="fas fa-check-circle" style="font-size:2.5rem;color:var(--teal);margin-bottom:12px"></i><h3 style="color:var(--gray-dark)">Recebemos seus dados!</h3><p style="color:var(--gray)">Entraremos em contato para agendar seu teste de nível.</p></div>';
 });
-
-// Trial form removed
 </script>
 </body>
 </html>
