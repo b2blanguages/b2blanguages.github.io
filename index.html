@@ -88,10 +88,10 @@ nav .container{display:flex;align-items:center;justify-content:space-between;hei
 }
 
 /* HERO */
-.hero{min-height:100vh;display:flex;align-items:center;padding-top:72px;position:relative;overflow:hidden;background:var(--bg-light)}
-.hero::before{display:none}
-.hero::after{display:none}
-.hero-logo-float{position:absolute;right:5%;top:50%;width:400px;height:400px;transform:translateY(-50%);background:url('logo-hero.png') center/contain no-repeat;pointer-events:none;animation:heroFloat 20s ease-in-out infinite}
+.hero{min-height:100vh;display:flex;align-items:center;padding-top:72px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url('images/hero-bg.jpg') center/cover no-repeat;z-index:0}
+.hero::after{content:'';position:absolute;inset:0;background:rgba(45,45,45,0.85);z-index:0}
+.hero-logo-float{display:none}
 @keyframes heroFloat{
 0%{transform:translateY(-50%) translateX(0) rotate(0deg) scale(1)}
 15%{transform:translateY(-55%) translateX(-20px) rotate(3deg) scale(1.03)}
@@ -105,13 +105,13 @@ nav .container{display:flex;align-items:center;justify-content:space-between;hei
 .hero .container{position:relative;z-index:1}
 .hero-content{max-width:700px}
 .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(140,49,36,0.1);border:1px solid rgba(140,49,36,0.3);padding:8px 18px;border-radius:50px;font-size:0.85rem;color:var(--red);margin-bottom:28px}
-.hero h1{font-family:var(--font-head);font-size:clamp(2.5rem,6vw,4rem);font-weight:700;line-height:1.1;margin-bottom:20px;color:var(--gray-dark)}
+.hero h1{font-family:var(--font-head);font-size:clamp(2.5rem,6vw,4rem);font-weight:700;line-height:1.1;margin-bottom:20px;color:#fff}
 .hero h1 .accent{color:var(--red)}
-.hero p{font-size:1.15rem;color:var(--gray);max-width:540px;margin-bottom:36px;line-height:1.7}
+.hero p{font-size:1.15rem;color:#ccc;max-width:540px;margin-bottom:36px;line-height:1.7}
 .hero-btns{display:flex;gap:16px;flex-wrap:wrap}
 .btn-primary{background:var(--red);color:#fff;padding:16px 32px;border-radius:10px;font-size:1rem;font-weight:600;border:none;cursor:pointer;transition:var(--transition);display:inline-flex;align-items:center;gap:8px}
 .btn-primary:hover{background:var(--red-light);transform:translateY(-2px);box-shadow:0 8px 30px rgba(140,49,36,0.3)}
-.btn-secondary{background:transparent;color:var(--gray-dark);padding:16px 32px;border-radius:10px;font-size:1rem;font-weight:600;border:1px solid rgba(0,0,0,0.2);cursor:pointer;transition:var(--transition);display:inline-flex;align-items:center;gap:8px}
+.btn-secondary{background:transparent;color:#fff;padding:16px 32px;border-radius:10px;font-size:1rem;font-weight:600;border:1px solid rgba(255,255,255,0.3);cursor:pointer;transition:var(--transition);display:inline-flex;align-items:center;gap:8px}
 .btn-secondary:hover{border-color:var(--red);color:var(--red);transform:translateY(-2px)}
 .hero-visual{position:absolute;right:0;top:50%;transform:translateY(-50%);width:400px;height:400px;opacity:0.6}
 @media(max-width:900px){.hero-visual{display:none}}
@@ -290,7 +290,7 @@ body.lang-es [data-lang-es]{display:revert}
 <!-- NAV -->
 <nav>
 <div class="container">
-<a href="#" class="logo"><div class="logo-mark"></div><span class="logo-text">B2B<span class="logo-sub">Languages</span></span></a>
+<a href="#" class="logo"><img src="images/logo-header.png" alt="B2B Languages" style="height:40px;width:auto"></a>
 <ul class="nav-links" id="navLinks">
 <li><a href="#solucoes" data-lang-pt>Soluções</a><a href="#solucoes" data-lang-en>Solutions</a><a href="#solucoes" data-lang-es>Soluciones</a></li>
 <li><a href="#metodo" data-lang-pt>Método</a><a href="#metodo" data-lang-en>Method</a><a href="#metodo" data-lang-es>Método</a></li>
@@ -337,9 +337,9 @@ body.lang-es [data-lang-es]{display:revert}
 <p class="section-label" data-lang-pt>Soluções</p>
 <p class="section-label" data-lang-en>Solutions</p>
 <p class="section-label" data-lang-es>Soluciones</p>
-<h2 class="section-title" data-lang-pt>Workshops, preparatórios e cursos no exterior feitos para você</h2>
-<h2 class="section-title" data-lang-en>Workshops, test prep, and courses abroad made for you</h2>
-<h2 class="section-title" data-lang-es>Workshops, preparatorios y cursos en el exterior hechos para usted</h2>
+<h2 class="section-title" data-lang-pt>Soluções Flexíveis em Inglês para Desenvolvimento Profissional e Pessoal</h2>
+<h2 class="section-title" data-lang-en>Flexible English Solutions for Professional and Personal Development</h2>
+<h2 class="section-title" data-lang-es>Soluciones Flexibles en Inglés para Desarrollo Profesional y Personal</h2>
 </div>
 <div class="services-grid">
 <!-- Aulas Individuais -->
@@ -381,6 +381,14 @@ body.lang-es [data-lang-es]{display:revert}
 <p data-lang-pt>Consultoria especializada para cursos no Canadá, Estados Unidos e Inglaterra. Assessoria completa com instituições de ensino, passaporte, visto, passagens, seguro viagem e acomodação.</p>
 <p data-lang-en>Specialized consulting for courses in Canada, the United States, and England. Full support with educational institutions, passport, visa, flights, travel insurance, and accommodation.</p>
 <p data-lang-es>Consultoría especializada para cursos en Canadá, Estados Unidos e Inglaterra. Asesoría completa con instituciones educativas, pasaporte, visa, pasajes, seguro de viaje y alojamiento.</p>
+</div>
+<!-- Inglês Geral -->
+<div class="service-card reveal reveal-delay-6">
+<div class="service-icon"><i class="fas fa-globe"></i></div>
+<h3 data-lang-pt>Inglês Geral</h3><h3 data-lang-en>General English</h3><h3 data-lang-es>Inglés General</h3>
+<p data-lang-pt>Também oferecemos programas de inglês geral para alunos que buscam desenvolvimento pessoal, preparação para viagens internacionais e aprimoramento da comunicação em contextos não corporativos. As aulas incluem simulações de situações reais, como aeroportos, hotéis, reuniões sociais e interações do dia a dia, com foco em fluência, vocabulário e segurança na comunicação.</p>
+<p data-lang-en>We also offer general English programs for students seeking personal development, preparation for international travel, and improvement of communication in non-corporate contexts. Classes include simulations of real situations, such as airports, hotels, social meetings, and daily interactions, focusing on fluency, vocabulary, and confidence in communication.</p>
+<p data-lang-es>También ofrecemos programas de inglés general para alumnos que buscan desarrollo personal, preparación para viajes internacionales y mejora de la comunicación en contextos no corporativos. Las clases incluyen simulaciones de situaciones reales, como aeropuertos, hoteles, reuniones sociales e interacciones cotidianas, con enfoque en fluidez, vocabulario y seguridad en la comunicación.</p>
 </div>
 </div>
 </div>
