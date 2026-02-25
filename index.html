@@ -147,11 +147,10 @@ section{padding:100px 0}
 /* SERVICES */
 #solucoes{background:var(--bg-light)}
 .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;margin-top:50px}
-.services-grid{position:relative}
-.service-card{background:var(--white);border:1px solid rgba(0,0,0,0.08);border-radius:16px;padding:36px;transition:all 0.35s ease;position:relative;box-shadow:0 2px 8px rgba(0,0,0,0.04);cursor:default;z-index:1}
+.service-card{background:var(--white);border:1px solid rgba(0,0,0,0.08);border-radius:16px;padding:36px;transition:border-color 0.3s ease,box-shadow 0.3s ease;position:relative;box-shadow:0 2px 8px rgba(0,0,0,0.04);cursor:default;z-index:1}
 .service-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red),var(--gold));transform:scaleX(0);transform-origin:left;transition:transform 0.4s ease;border-radius:16px 16px 0 0}
 .service-card:hover::before{transform:scaleX(1)}
-.service-card:hover{z-index:20;border-color:rgba(140,49,36,0.2);box-shadow:0 16px 50px rgba(0,0,0,0.18);transform:scale(1.04)}
+.service-card:hover{border-color:rgba(140,49,36,0.2);box-shadow:0 4px 16px rgba(0,0,0,0.1)}
 .service-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:20px}
 .service-icon.english{background:rgba(140,49,36,0.15);color:var(--red)}
 .service-icon.spanish{background:rgba(243,156,18,0.15);color:var(--gold)}
@@ -160,33 +159,33 @@ section{padding:100px 0}
 .service-icon.group{background:rgba(155,89,182,0.15);color:#9b59b6}
 .service-icon.individual{background:rgba(230,126,34,0.15);color:#e67e22}
 .service-card h3{font-family:var(--font-head);font-size:1.2rem;margin-bottom:10px;color:var(--gray-dark)}
-.service-card p{color:var(--gray);font-size:0.95rem;line-height:1.6;max-height:3.2em;overflow:hidden;transition:max-height 0.5s ease;position:relative}
-.service-card p::after{content:'';position:absolute;bottom:0;left:0;right:0;height:24px;background:linear-gradient(transparent,var(--white));transition:opacity 0.3s ease;pointer-events:none}
-.service-card:hover p{max-height:500px}
-.service-card:hover p::after{opacity:0}
-.service-card .expand-hint{display:flex;align-items:center;justify-content:center;gap:4px;font-size:0.75rem;color:var(--red);opacity:0.7;margin-top:8px;transition:all 0.3s ease;letter-spacing:0.5px}
-.service-card .expand-hint i{font-size:0.6rem;transition:transform 0.3s ease}
-.service-card:hover .expand-hint{opacity:0}
+.service-card p{color:var(--gray);font-size:0.95rem;line-height:1.6;max-height:3.2em;overflow:hidden;position:relative}
+.service-card p::after{content:'';position:absolute;bottom:0;left:0;right:0;height:24px;background:linear-gradient(transparent,var(--bg-light));pointer-events:none}
+.service-card .expand-hint{display:flex;align-items:center;justify-content:center;gap:4px;font-size:0.75rem;color:var(--red);opacity:0.7;margin-top:8px;letter-spacing:0.5px}
+.service-card .expand-hint i{font-size:0.6rem}
+/* Expanded overlay card (set by JS) */
+.card-overlay{position:fixed;z-index:9999;background:var(--white);border:1px solid rgba(140,49,36,0.2);border-radius:16px;padding:36px;box-shadow:0 20px 60px rgba(0,0,0,0.25);transition:opacity 0.25s ease,transform 0.25s ease;opacity:0;transform:scale(0.95);pointer-events:auto}
+.card-overlay.visible{opacity:1;transform:scale(1)}
+.card-overlay::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red),var(--gold));border-radius:16px 16px 0 0}
+.card-overlay p{max-height:none !important;overflow:visible !important}
+.card-overlay p::after{display:none}
+.card-overlay .expand-hint{display:none}
 
 /* METHOD */
 #metodo{background:var(--white)}
 .method-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;margin-top:50px}
 @media(max-width:1200px){.method-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:768px){.method-grid{grid-template-columns:1fr}}
-.method-grid{position:relative}
-.method-item{background:var(--white);border:1px solid rgba(0,0,0,0.08);border-radius:16px;padding:28px;transition:all 0.35s ease;position:relative;box-shadow:0 2px 8px rgba(0,0,0,0.04);display:flex;gap:14px;align-items:flex-start;cursor:default;z-index:1}
+.method-item{background:var(--white);border:1px solid rgba(0,0,0,0.08);border-radius:16px;padding:28px;transition:border-color 0.3s ease,box-shadow 0.3s ease;position:relative;box-shadow:0 2px 8px rgba(0,0,0,0.04);display:flex;gap:14px;align-items:flex-start;cursor:default;z-index:1}
 .method-item::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red),var(--gold));transform:scaleX(0);transform-origin:left;transition:transform 0.4s ease;z-index:2;border-radius:16px 16px 0 0}
 .method-item:hover::before{transform:scaleX(1)}
-.method-item:hover{z-index:20;border-color:rgba(140,49,36,0.2);box-shadow:0 16px 50px rgba(0,0,0,0.18);transform:scale(1.08)}
+.method-item:hover{border-color:rgba(140,49,36,0.2);box-shadow:0 4px 16px rgba(0,0,0,0.1)}
 .method-num{flex-shrink:0;width:40px;height:40px;border-radius:12px;background:rgba(140,49,36,0.15);color:var(--red);display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:600;font-size:1rem}
 .method-item h4{font-size:1rem;margin-bottom:6px;color:var(--gray-dark)}
-.method-item p{color:var(--gray);font-size:0.85rem;line-height:1.6;max-height:2.6em;overflow:hidden;transition:max-height 0.5s ease;position:relative}
-.method-item p::after{content:'';position:absolute;bottom:0;left:0;right:0;height:20px;background:linear-gradient(transparent,var(--white));transition:opacity 0.3s ease;pointer-events:none}
-.method-item:hover p{max-height:500px}
-.method-item:hover p::after{opacity:0}
-.method-item .expand-hint{display:flex;align-items:center;justify-content:center;gap:4px;font-size:0.7rem;color:var(--red);opacity:0.7;margin-top:6px;letter-spacing:0.5px;transition:all 0.3s ease}
+.method-item p{color:var(--gray);font-size:0.85rem;line-height:1.6;max-height:2.6em;overflow:hidden;position:relative}
+.method-item p::after{content:'';position:absolute;bottom:0;left:0;right:0;height:20px;background:linear-gradient(transparent,var(--white));pointer-events:none}
+.method-item .expand-hint{display:flex;align-items:center;justify-content:center;gap:4px;font-size:0.7rem;color:var(--red);opacity:0.7;margin-top:6px;letter-spacing:0.5px}
 .method-item .expand-hint i{font-size:0.55rem}
-.method-item:hover .expand-hint{opacity:0}
 
 /* STATS */
 .stats{background:linear-gradient(135deg,var(--red) 0%,#6d1e13 100%);padding:60px 0;position:relative;overflow:hidden}
@@ -718,7 +717,78 @@ document.getElementById('exitForm').addEventListener('submit', async function(e)
   } catch(e) {}
   this.innerHTML = '<div style="text-align:center;padding:20px"><i class="fas fa-check-circle" style="font-size:2.5rem;color:var(--teal);margin-bottom:12px"></i><h3 style="color:var(--gray-dark)">Recebemos seus dados!</h3><p style="color:var(--gray)">Entraremos em contato para agendar seu teste de nível.</p></div>';
 });
-// No JS needed — hover handles expand via CSS
+// Card hover overlay — expands wider over neighbors
+(function(){
+  let overlay = null;
+  let hideTimer = null;
+  const EXPAND_W = 580; // expanded overlay width in px
+  const DELAY = 80; // ms before showing
+
+  function showOverlay(card) {
+    if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+    if (overlay) overlay.remove();
+
+    const rect = card.getBoundingClientRect();
+    const clone = card.cloneNode(true);
+    clone.className = 'card-overlay';
+    // Copy the icon bg class
+    const icon = card.querySelector('.service-icon, .method-num');
+    if (icon) {
+      const cloneIcon = clone.querySelector('.service-icon, .method-num');
+      if (cloneIcon) cloneIcon.className = icon.className;
+    }
+    // Determine if method-item style (flex layout)
+    if (card.classList.contains('method-item')) {
+      clone.style.display = 'flex';
+      clone.style.gap = '14px';
+      clone.style.alignItems = 'flex-start';
+    }
+
+    // Calculate position: center over card, but clamp to viewport
+    const expandW = Math.min(EXPAND_W, window.innerWidth - 40);
+    let left = rect.left + rect.width / 2 - expandW / 2;
+    left = Math.max(20, Math.min(left, window.innerWidth - expandW - 20));
+    const top = rect.top;
+
+    clone.style.left = left + 'px';
+    clone.style.top = top + 'px';
+    clone.style.width = expandW + 'px';
+
+    document.body.appendChild(clone);
+    // Force reflow then animate in
+    clone.offsetHeight;
+    clone.classList.add('visible');
+    overlay = clone;
+
+    clone.addEventListener('mouseleave', () => {
+      hideTimer = setTimeout(removeOverlay, 100);
+    });
+    clone.addEventListener('mouseenter', () => {
+      if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+    });
+  }
+
+  function removeOverlay() {
+    if (overlay) {
+      overlay.classList.remove('visible');
+      const el = overlay;
+      setTimeout(() => el.remove(), 250);
+      overlay = null;
+    }
+  }
+
+  let enterTimer = null;
+  document.querySelectorAll('.service-card, .method-item').forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      if (enterTimer) clearTimeout(enterTimer);
+      enterTimer = setTimeout(() => showOverlay(card), DELAY);
+    });
+    card.addEventListener('mouseleave', () => {
+      if (enterTimer) { clearTimeout(enterTimer); enterTimer = null; }
+      hideTimer = setTimeout(removeOverlay, 200);
+    });
+  });
+})();
 </script>
 </body>
 </html>
