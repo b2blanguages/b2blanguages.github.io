@@ -243,6 +243,25 @@ Voltar ao Site
 <!-- STEP 1: Personal Details -->
 <div id="step1" class="test-step hidden">
 <form id="personalForm">
+
+<!-- Language Selector -->
+<div class="form-group" style="margin-bottom:32px">
+<label class="form-label" style="text-align:center;font-size:1.1rem;margin-bottom:16px">Escolha seu idioma de interesse / Elija su idioma de interés</label>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div onclick="selectLanguage('english')" id="lang-english" class="language-option" style="background:#fff;border:2px solid var(--red);border-radius:12px;padding:20px;text-align:center;cursor:pointer">
+<div style="font-size:2.5rem;margin-bottom:8px">🇺🇸</div>
+<div style="font-weight:600;color:var(--gray-dark)">Inglês</div>
+<div style="font-size:0.85rem;color:var(--gray)">English Test</div>
+</div>
+<div onclick="window.location.href='espanol/'" id="lang-spanish" class="language-option" style="background:#fff;border:2px solid #e5e5e5;border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:all 0.3s">
+<div style="font-size:2.5rem;margin-bottom:8px">🇪🇸</div>
+<div style="font-weight:600;color:var(--gray-dark)">Espanhol</div>
+<div style="font-size:0.85rem;color:var(--gray)">Prueba de Español</div>
+</div>
+</div>
+<input type="hidden" id="languageInterest" name="languageInterest" value="english">
+</div>
+
 <div class="form-group">
 <label for="name" class="form-label">Nome Completo *</label>
 <input type="text" id="name" name="name" class="form-input" placeholder="Digite seu nome completo" required>
@@ -700,6 +719,15 @@ updateProgress();
 updateStepIndicators();
 }
 
+// Language selector
+function selectLanguage(lang) {
+document.getElementById('languageInterest').value = lang;
+document.querySelectorAll('.language-option').forEach(el => {
+el.style.borderColor = '#e5e5e5';
+});
+document.getElementById('lang-' + lang).style.borderColor = 'var(--red)';
+}
+
 // STEP 1: Personal Details
 document.getElementById('personalForm').addEventListener('submit', function(e) {
 e.preventDefault();
@@ -707,7 +735,8 @@ personalData = {
 name: document.getElementById('name').value.trim(),
 company: document.getElementById('company').value.trim(),
 email: document.getElementById('email').value.trim(),
-phone: document.getElementById('phone').value.trim()
+phone: document.getElementById('phone').value.trim(),
+language: document.getElementById('languageInterest').value
 };
 
 if(!personalData.name || !personalData.email || !personalData.phone) {
@@ -920,7 +949,8 @@ lead: {
 name: personalData.name,
 company: personalData.company || '',
 email: personalData.email,
-phone: personalData.phone
+phone: personalData.phone,
+language: personalData.language || 'english'
 },
 mc_questions: mcQuestions.map((q, index) => ({
 number: index + 1,
