@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Teste de Nível de Inglês — B2B Languages</title>
-<meta name="description" content="Descubra seu nível de inglês com nosso teste interativo. Avaliação gratuita com resultados imediatos.">
+<title>Prueba de Nivel de Español — B2B Languages</title>
+<meta name="description" content="Descubre tu nivel de español con nuestra prueba interactiva. Evaluación gratuita con resultados inmediatos.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect rx='20' width='100' height='100' fill='%238c3124'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'>B2B</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;600;700&family=Titillium+Web:wght@200;400;600&display=swap" rel="stylesheet">
@@ -32,36 +32,30 @@
 html{scroll-behavior:smooth}
 body{font-family:var(--font-body);background:var(--bg);color:var(--gray-dark);line-height:1.6;min-height:100vh}
 
-/* PROGRESS BAR */
 .progress-bar-container{position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--white);box-shadow:0 2px 10px rgba(0,0,0,0.1)}
 .progress-bar{height:6px;background:linear-gradient(90deg,var(--red),var(--red-light));width:0%;transition:width 0.5s ease}
 .progress-info{padding:12px 24px;display:flex;justify-content:space-between;align-items:center;font-size:0.9rem;color:var(--gray)}
 .test-timer{color:var(--gray-light);font-weight:500}
 
-/* MAIN CONTAINER */
 .main-container{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:80px 24px 40px;transition:var(--transition)}
 .test-container{background:var(--bg-card);border-radius:20px;padding:48px 40px;max-width:800px;width:100%;box-shadow:var(--shadow);position:relative;overflow:hidden}
 
-/* LOGO AND HEADER */
 .test-header{text-align:center;margin-bottom:40px}
 .test-logo{height:60px;border-radius:10px;margin-bottom:20px}
 .test-title{font-family:var(--font-head);font-size:clamp(1.8rem,4vw,2.5rem);margin-bottom:8px;color:var(--gray-dark);font-weight:600}
 .test-subtitle{color:var(--gray);font-size:1.1rem;line-height:1.6;margin-bottom:0}
 
-/* STEP INDICATORS */
 .step-indicators{display:flex;justify-content:center;gap:12px;margin-bottom:32px}
 .step-indicator{width:12px;height:12px;border-radius:50%;background:var(--gray-light);opacity:0.3;transition:var(--transition)}
 .step-indicator.active{background:var(--red);opacity:1;transform:scale(1.2)}
 .step-indicator.completed{background:var(--red);opacity:0.6}
 
-/* FORM STYLES */
 .form-group{margin-bottom:24px;text-align:left}
 .form-label{display:block;font-weight:600;color:var(--gray-dark);margin-bottom:8px;font-size:0.95rem}
 .form-input{width:100%;padding:16px 20px;border:2px solid #e5e5e5;border-radius:var(--border-radius);font-size:1rem;font-family:var(--font-body);transition:var(--transition);background:var(--white)}
 .form-input:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px rgba(140,49,36,0.1)}
 .form-input::placeholder{color:var(--gray-light)}
 
-/* BUTTONS */
 .btn{padding:16px 32px;border:none;border-radius:var(--border-radius);font-size:1rem;font-weight:600;cursor:pointer;transition:var(--transition);display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--font-body)}
 .btn-primary{background:var(--red);color:var(--white)}
 .btn-primary:hover:not(:disabled){background:var(--red-light);transform:translateY(-2px);box-shadow:var(--shadow-hover)}
@@ -75,7 +69,6 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--gray-dark);li
 .btn-group{display:flex;justify-content:space-between;align-items:center;gap:16px}
 .btn-group.center{justify-content:center}
 
-/* QUESTION PAGE STYLES (8 per page) */
 .question-container{margin-bottom:32px}
 .question-header{margin-bottom:32px;text-align:center}
 .question-counter{color:var(--red);font-weight:600;font-size:0.9rem;margin-bottom:8px}
@@ -95,17 +88,6 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--gray-dark);li
 .mc-option-radio{width:20px;height:20px;border-radius:50%;border:2px solid #ccc;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:var(--transition)}
 .mc-option-text{flex:1;color:var(--gray-dark)}
 
-.options-grid{display:grid;gap:12px;margin-bottom:32px}
-.option-card{background:var(--white);border:2px solid #e5e5e5;border-radius:var(--border-radius);padding:20px;cursor:pointer;transition:var(--transition);position:relative;display:flex;align-items:center;gap:16px}
-.option-card:hover{border-color:var(--red);background:#fefefe}
-.option-card.selected{border-color:var(--red);background:rgba(140,49,36,0.05)}
-.option-card.selected::after{content:'';position:absolute;top:12px;right:12px;width:20px;height:20px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center}
-.option-card.selected::before{content:'✓';position:absolute;top:16px;right:16px;color:var(--white);font-size:12px;font-weight:bold;z-index:1}
-
-.option-letter{background:var(--bg);color:var(--gray);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:0.9rem;flex-shrink:0}
-.option-text{flex:1;color:var(--gray-dark);font-size:1rem}
-
-/* WRITING TASK */
 .writing-container{text-align:left}
 .writing-prompt{background:var(--bg);padding:24px;border-radius:var(--border-radius);margin-bottom:24px;border-left:4px solid var(--red)}
 .writing-prompt h3{color:var(--gray-dark);margin-bottom:12px;font-size:1.1rem}
@@ -116,13 +98,11 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--gray-dark);li
 
 .char-counter{text-align:right;color:var(--gray-light);font-size:0.85rem;margin-top:8px}
 
-/* PT-BR translation toggle */
 .translation-toggle{color:var(--gray-light);cursor:pointer;font-size:0.85rem;margin-left:6px;transition:var(--transition);vertical-align:middle}
 .translation-toggle:hover{color:var(--red)}
 .translation-text{display:none;margin-top:10px;padding-top:10px;border-top:1px solid #e5e5e5;color:var(--gray-light);font-size:0.9rem;font-style:italic;line-height:1.5}
 .translation-text.visible{display:block}
 
-/* RESULTS */
 .results-container{text-align:center}
 .score-display{background:linear-gradient(135deg,var(--red),var(--red-light));color:var(--white);padding:32px;border-radius:20px;margin-bottom:32px}
 .score-number{font-size:3rem;font-weight:700;font-family:var(--font-head);margin-bottom:8px}
@@ -132,8 +112,6 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--gray-dark);li
 .results-info{background:var(--bg);padding:24px;border-radius:var(--border-radius);margin-bottom:32px;text-align:left}
 .results-info h3{color:var(--gray-dark);margin-bottom:12px}
 .results-info p{color:var(--gray);margin-bottom:16px}
-.results-info ul{margin-left:20px;color:var(--gray)}
-.results-info li{margin-bottom:8px}
 
 .cta-section{background:linear-gradient(135deg,rgba(140,49,36,0.1),rgba(140,49,36,0.05));padding:32px;border-radius:var(--border-radius);margin-top:32px}
 .cta-section h3{color:var(--gray-dark);margin-bottom:16px;font-size:1.3rem}
@@ -142,27 +120,19 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--gray-dark);li
 .whatsapp-btn{background:#25D366;color:var(--white);padding:16px 24px;border-radius:var(--border-radius);text-decoration:none;font-weight:600;display:inline-flex;align-items:center;gap:10px;transition:var(--transition)}
 .whatsapp-btn:hover{background:#22BE5B;transform:translateY(-2px);box-shadow:0 8px 25px rgba(37,211,102,0.3)}
 
-/* UTILITY CLASSES */
 .text-center{text-align:center}
 .hidden{display:none}
 .fade-in{animation:fadeIn 0.5s ease-in-out}
-.slide-in-right{animation:slideInRight 0.4s ease-out}
 
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes slideInRight{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
 
-/* MOBILE RESPONSIVE */
 @media(max-width:768px){
 .test-container{padding:32px 24px;margin:0 16px}
 .btn-group{flex-direction:column;gap:12px}
 .btn-group .btn{width:100%}
 .btn-group.center{flex-direction:row}
-.options-grid{gap:8px}
-.option-card{padding:16px}
 .question-text{font-size:1.1rem}
 .score-number{font-size:2.5rem}
-.step-indicators{gap:8px}
-.progress-info{padding:8px 16px;font-size:0.8rem}
 .mc-card{padding:16px}
 .mc-option{padding:10px 12px;font-size:0.9rem}
 }
@@ -171,7 +141,6 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--gray-dark);li
 .test-container{padding:24px 16px}
 .test-title{font-size:1.5rem}
 .btn{padding:14px 24px;font-size:0.95rem}
-.option-card{padding:14px}
 .writing-textarea{min-height:150px}
 .mc-card{padding:14px}
 }
@@ -179,27 +148,23 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--gray-dark);li
 </head>
 <body>
 
-<!-- Progress Bar -->
 <div class="progress-bar-container">
 <div class="progress-bar" id="progressBar"></div>
 <div class="progress-info">
-<span id="progressText">Iniciando teste...</span>
+<span id="progressText">Iniciando prueba...</span>
 <span class="test-timer" id="testTimer">00:00</span>
 </div>
 </div>
 
-<!-- Main Container -->
 <div class="main-container">
 <div class="test-container">
 
-<!-- Test Header -->
 <div class="test-header">
 <img src="../logo.jpg" alt="B2B Languages" class="test-logo">
-<h1 class="test-title">Teste de Nível de Inglês</h1>
-<p class="test-subtitle">Descubra seu nível de inglês e receba um plano personalizado</p>
+<h1 class="test-title">Prueba de Nivel de Español</h1>
+<p class="test-subtitle">Descubre tu nivel de español y recibe un plan personalizado</p>
 </div>
 
-<!-- Step Indicators -->
 <div class="step-indicators">
 <div class="step-indicator active" id="step1Indicator"></div>
 <div class="step-indicator" id="step2Indicator"></div>
@@ -207,68 +172,33 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--gray-dark);li
 <div class="step-indicator" id="step4Indicator"></div>
 </div>
 
-<!-- STEP 0: Language Selection -->
-<div id="step0" class="test-step fade-in">
-<div style="text-align:center;max-width:500px;margin:0 auto">
-<h2 style="font-family:var(--font-head);font-size:1.8rem;margin-bottom:16px;color:var(--gray-dark)">Escolha o Idioma / Selecciona el Idioma</h2>
-<p style="color:var(--gray);margin-bottom:40px;font-size:1.05rem">Selecione o teste de idioma que deseja fazer<br>Selecciona la prueba de idioma que deseas hacer</p>
-
-<div style="display:grid;gap:20px;margin-bottom:32px">
-<a href="./" class="btn btn-primary" style="justify-content:center;padding:24px 32px;font-size:1.1rem">
-<span style="font-size:2rem;margin-right:12px">🇺🇸</span>
-<div style="text-align:left">
-<div style="font-weight:700">English Test</div>
-<div style="font-size:0.85rem;opacity:0.9;font-weight:400">Teste de Nível de Inglês</div>
-</div>
-</a>
-
-<a href="./espanol/" class="btn btn-primary" style="justify-content:center;padding:24px 32px;font-size:1.1rem;background:var(--gold)">
-<span style="font-size:2rem;margin-right:12px">🇪🇸</span>
-<div style="text-align:left">
-<div style="font-weight:700">Prueba de Español</div>
-<div style="font-size:0.85rem;opacity:0.9;font-weight:400">Teste de Nível de Espanhol</div>
-</div>
-</a>
-</div>
-
-<div style="margin-top:24px">
-<a href="../" class="btn btn-secondary" style="width:auto;display:inline-flex">
-<i class="fas fa-arrow-left"></i>
-Voltar ao Site
-</a>
-</div>
-</div>
-</div>
-
-<!-- STEP 1: Personal Details -->
-<div id="step1" class="test-step hidden">
+<div id="step1" class="test-step fade-in">
 <form id="personalForm">
 <div class="form-group">
-<label for="name" class="form-label">Nome Completo *</label>
-<input type="text" id="name" name="name" class="form-input" placeholder="Digite seu nome completo" required>
+<label for="name" class="form-label">Nombre Completo *</label>
+<input type="text" id="name" name="name" class="form-input" placeholder="Ingresa tu nombre completo" required>
 </div>
 <div class="form-group">
 <label for="company" class="form-label">Empresa</label>
-<input type="text" id="company" name="company" class="form-input" placeholder="Nome da sua empresa">
+<input type="text" id="company" name="company" class="form-input" placeholder="Nombre de tu empresa">
 </div>
 <div class="form-group">
-<label for="email" class="form-label">E-mail *</label>
-<input type="email" id="email" name="email" class="form-input" placeholder="seu.email@exemplo.com" required>
+<label for="email" class="form-label">Correo electrónico *</label>
+<input type="email" id="email" name="email" class="form-input" placeholder="tu.email@ejemplo.com" required>
 </div>
 <div class="form-group">
-<label for="phone" class="form-label">Celular *</label>
+<label for="phone" class="form-label">Teléfono *</label>
 <input type="tel" id="phone" name="phone" class="form-input" placeholder="(11) 99999-9999" required>
 </div>
 <div class="btn-group center">
 <button type="submit" class="btn btn-primary">
 <i class="fas fa-play"></i>
-Começar Teste
+Comenzar Prueba
 </button>
 </div>
 </form>
 </div>
 
-<!-- STEP 2: Multiple Choice Questions (8 per page) -->
 <div id="step2" class="test-step hidden">
 <div class="question-container">
 <div class="question-header">
@@ -278,17 +208,16 @@ Começar Teste
 <div class="btn-group">
 <button type="button" class="btn btn-secondary" id="backBtn" onclick="previousPage()">
 <i class="fas fa-arrow-left"></i>
-Voltar
+Volver
 </button>
 <button type="button" class="btn btn-primary" id="nextBtn" onclick="nextPage()">
-Próxima Página
+Siguiente Página
 <i class="fas fa-arrow-right"></i>
 </button>
 </div>
 </div>
 </div>
 
-<!-- STEP 3: Writing Tasks -->
 <div id="step3" class="test-step hidden">
 <div class="writing-container">
 <div class="writing-prompt" id="writingPrompt">
@@ -297,338 +226,335 @@ Próxima Página
 <span class="translation-toggle" id="translationToggle" onclick="toggleTranslation()"><i class="fas fa-info-circle"></i> PT-BR</span>
 <p class="translation-text" id="translationText"></p>
 </div>
-<textarea id="writingTextarea" class="writing-textarea" placeholder="Escreva sua resposta aqui..." oninput="updateCharCounter()"></textarea>
+<textarea id="writingTextarea" class="writing-textarea" placeholder="Escribe tu respuesta aquí..." oninput="updateCharCounter()"></textarea>
 <div class="char-counter" id="charCounter">0 caracteres</div>
 <div class="btn-group">
 <button type="button" class="btn btn-secondary" id="writingBackBtn" onclick="previousWriting()">
 <i class="fas fa-arrow-left"></i>
-Voltar
+Volver
 </button>
 <button type="button" class="btn btn-primary" id="writingNextBtn" onclick="nextWriting()">
-Próxima
+Siguiente
 <i class="fas fa-arrow-right"></i>
 </button>
 </div>
 </div>
 </div>
 
-<!-- STEP 4: Results -->
 <div id="step4" class="test-step hidden">
 <div class="results-container">
 <div class="score-display" style="text-align:center;padding:48px 32px">
 <div style="font-size:64px;margin-bottom:16px"><i class="fas fa-check-circle"></i></div>
-<h2 style="color:#fff;font-size:1.8rem;margin-bottom:12px">Teste Concluído!</h2>
-<p style="color:rgba(255,255,255,0.85);font-size:1.05rem">Obrigado por completar o teste de nível.</p>
+<h2 style="color:#fff;font-size:1.8rem;margin-bottom:12px">¡Prueba Completada!</h2>
+<p style="color:rgba(255,255,255,0.85);font-size:1.05rem">Gracias por completar la prueba de nivel.</p>
 </div>
 
 <div class="results-info">
-<h3><i class="fas fa-envelope"></i> Próximos Passos</h3>
-<p>Suas respostas foram enviadas para nossa equipe pedagógica. Analisaremos cuidadosamente cada questão e entraremos em contato com seu resultado completo e uma recomendação de curso personalizada.</p>
-<p style="margin-top:12px"><strong>Prazo de retorno:</strong> até 2 dias úteis.</p>
+<h3><i class="fas fa-envelope"></i> Próximos Pasos</h3>
+<p>Tus respuestas han sido enviadas a nuestro equipo pedagógico. Analizaremos cuidadosamente cada pregunta y nos pondremos en contacto contigo con tu resultado completo y una recomendación de curso personalizada.</p>
+<p style="margin-top:12px"><strong>Plazo de respuesta:</strong> hasta 2 días hábiles.</p>
 </div>
 
 <div class="cta-section">
-<h3>Quer agilizar?</h3>
-<p>Fale diretamente com nossa equipe pelo WhatsApp!</p>
-<a href="https://wa.me/5511558920997?text=Ol%C3%A1!%20Acabei%20de%20fazer%20o%20teste%20de%20n%C3%ADvel%20no%20site%20e%20gostaria%20de%20saber%20mais." class="whatsapp-btn" target="_blank">
+<h3>¿Quieres agilizar?</h3>
+<p>¡Habla directamente con nuestro equipo por WhatsApp!</p>
+<a href="https://wa.me/551155892097?text=Hola!%20Acabo%20de%20hacer%20la%20prueba%20de%20nivel%20de%20español%20en%20el%20sitio%20y%20me%20gustaría%20saber%20más." class="whatsapp-btn" target="_blank">
 <i class="fab fa-whatsapp"></i>
-Falar pelo WhatsApp
+Hablar por WhatsApp
 </a>
 </div>
 
 <div class="btn-group center" style="margin-top:32px">
-<a href="../" class="btn btn-secondary">
+<a href="../../" class="btn btn-secondary">
 <i class="fas fa-arrow-left"></i>
-Voltar ao site
+Volver al sitio
 </a>
 </div>
 </div>
+</div>
 
 </div>
 </div>
 
-<script>
-// Test Data
+<script>// Spanish Test Data - 40 Questions CEFR A1-C2
 const mcQuestions = [
-// Beginner (A1-A2) — Questions 1-12
+// A1-A2: Ser/Estar, Present tense, Articles (1-12)
 {
-question: "Excuse me, __________ for the bus?",
-options: ["do you wait", "are you waiting", "is you waiting", "you are waiting"],
-correct: 1,
-level: "A1-A2"
-},
-{
-question: "What __________ your wife do?", 
-options: ["do", "is", "does", "are"],
+question: "¿De dónde __________ tú?",
+options: ["es", "estás", "eres", "soy"],
 correct: 2,
 level: "A1-A2"
 },
 {
-question: "__________ the newspaper? Can I borrow it?",
-options: ["do you read", "you read", "are you reading", "you are reading"],
-correct: 2,
-level: "A1-A2"
-},
-{
-question: "My son __________ television very often.",
-options: ["is not watch", "is not watching", "doesn't watch", "not watches"],
-correct: 2,
-level: "A1-A2"
-},
-{
-question: "I __________ to the radio. You can turn it off.",
-options: ["don't listen", "not listening", "am listening", "am not listening"],
-correct: 3,
-level: "A1-A2"
-},
-{
-question: "Tom and Kate __________ when I arrived.",
-options: ["are studying", "were studying", "study", "was studying"],
-correct: 1,
-level: "A1-A2"
-},
-{
-question: "She __________ him in the park last weekend.",
-options: ["sees", "saw", "is seeing", "was seeing"],
-correct: 1,
-level: "A1-A2"
-},
-{
-question: "__________ to the theatre last week?",
-options: ["Was she going", "Did she go", "Did she went", "Does she go"],
-correct: 1,
-level: "A1-A2"
-},
-{
-question: "They __________ our proposal.",
-options: ["didn't accepted", "not accepted", "didn't accept", "not accept"],
-correct: 2,
-level: "A1-A2"
-},
-{
-question: "I __________ a new laptop last month.",
-options: ["buyed", "have bought", "bought", "was buying"],
-correct: 2,
-level: "A1-A2"
-},
-{
-question: "There __________ any milk in the fridge.",
-options: ["isn't", "aren't", "don't", "doesn't"],
+question: "Mi hermano __________ en la oficina ahora.",
+options: ["está", "es", "estoy", "soy"],
 correct: 0,
 level: "A1-A2"
 },
 {
-question: "She __________ to work by bus every day.",
-options: ["go", "going", "goes", "is go"],
-correct: 2,
+question: "__________ una mesa y dos sillas en la sala.",
+options: ["Hay", "Es", "Está", "Son"],
+correct: 0,
+level: "A1-A2"
+},
+{
+question: "Yo __________ español todos los días.",
+options: ["estudio", "estoy estudiando", "estudiar", "estudié"],
+correct: 0,
+level: "A1-A2"
+},
+{
+question: "Ellos __________ de México, ¿verdad?",
+options: ["están", "son", "es", "estáis"],
+correct: 1,
+level: "A1-A2"
+},
+{
+question: "María no __________ café, prefiere té.",
+options: ["tomo", "toma", "tomas", "tomamos"],
+correct: 1,
+level: "A1-A2"
+},
+{
+question: "__________ libros son de la biblioteca.",
+options: ["Estos", "Este", "Esta", "Ese"],
+correct: 0,
+level: "A1-A2"
+},
+{
+question: "¿__________ hora es?",
+options: ["Qué", "Cuál", "Cómo", "Dónde"],
+correct: 0,
+level: "A1-A2"
+},
+{
+question: "Nosotros __________ en Madrid desde 2020.",
+options: ["vivimos", "vivimos", "estamos viviendo", "viviremos"],
+correct: 1,
+level: "A1-A2"
+},
+{
+question: "El concierto __________ a las ocho de la noche.",
+options: ["empieza", "está empezando", "empiezo", "empezamos"],
+correct: 0,
+level: "A1-A2"
+},
+{
+question: "¿Tú __________ hermanos?",
+options: ["tienes", "estás", "eres", "vas"],
+correct: 0,
+level: "A1-A2"
+},
+{
+question: "__________ estudiantes están en el aula.",
+options: ["Los", "Las", "El", "La"],
+correct: 0,
 level: "A1-A2"
 },
 
-// Pre-Intermediate (A2-B1) — Questions 13-20
+// A2-B1: Preterite/Imperfect, Future, Object Pronouns (13-20)
 {
-question: "I think __________ travel abroad next year.",
-options: ["I am going to", "I will go to", "I go to", "I will"],
+question: "Ayer __________ al cine con mis amigos.",
+options: ["voy", "iba", "fui", "he ido"],
+correct: 2,
+level: "A2-B1"
+},
+{
+question: "Cuando era niño, __________ mucho en el parque.",
+options: ["juego", "jugaba", "jugué", "he jugado"],
+correct: 1,
+level: "A2-B1"
+},
+{
+question: "Mañana __________ a Barcelona en tren.",
+options: ["voy", "iré", "iba", "ido"],
+correct: 1,
+level: "A2-B1"
+},
+{
+question: "¿Me __________ el libro cuando termines?",
+options: ["presta", "prestas", "prestes", "prestó"],
+correct: 1,
+level: "A2-B1"
+},
+{
+question: "Ella __________ en Madrid durante cinco años.",
+options: ["vivió", "vivía", "ha vivido", "vive"],
+correct: 1,
+level: "A2-B1"
+},
+{
+question: "__________ lo dices, no lo voy a hacer.",
+options: ["Aunque", "Porque", "Cuando", "Si"],
 correct: 0,
 level: "A2-B1"
 },
 {
-question: "He said that he __________ next Saturday.",
-options: ["will move", "moves", "is going to move", "moving"],
+question: "¿__________ has visto a Juan? No lo veo desde abril.",
+options: ["Nunca", "Siempre", "Ya", "Todavía"],
 correct: 2,
 level: "A2-B1"
 },
 {
-question: "According to the timetable, the bus __________ at 6:00.",
-options: ["arrives", "is going to arrive", "is arriving", "will arrive"],
-correct: 0,
-level: "A2-B1"
-},
-{
-question: "Susan __________ here since 2000.",
-options: ["works", "worked", "is working", "has worked"],
-correct: 3,
-level: "A2-B1"
-},
-{
-question: "We __________ in Boston for 4 years, then we moved to New York.",
-options: ["live", "were living", "lived", "have lived"],
-correct: 2,
-level: "A2-B1"
-},
-{
-question: "My kids __________ English for 2 years. They really enjoy it!",
-options: ["study", "are studying", "have been studying", "studied"],
-correct: 2,
-level: "A2-B1"
-},
-{
-question: "Paty __________ well since she woke up this morning.",
-options: ["doesn't feel", "hasn't been felt", "isn't feeling", "hasn't been feeling"],
-correct: 3,
-level: "A2-B1"
-},
-{
-question: "Kevin __________ her 2 years ago, when he was in the army.",
-options: ["has met", "has been met", "met", "has been meeting"],
-correct: 2,
+question: "Mi jefe me __________ que llegara temprano mañana.",
+options: ["dice", "dijo", "decía", "había dicho"],
+correct: 1,
 level: "A2-B1"
 },
 
-// Intermediate (B1-B2) — Questions 21-30
+// B1-B2: Subjunctive Present, Conditional, Por/Para (21-30)
 {
-question: "When we got to the airport, the plane __________.",
-options: ["has left", "had left", "left", "had been leaving"],
+question: "Quiero que tú __________ conmigo al concierto.",
+options: ["vienes", "vienas", "vendrás", "vendrías"],
 correct: 1,
 level: "B1-B2"
 },
 {
-question: "When I looked back again, the man __________.",
-options: ["had vanished", "was vanished", "had been vanishing", "has vanished"],
-correct: 0,
-level: "B1-B2"
-},
-{
-question: "By the time the police arrived, the thieves __________.",
-options: ["have run away", "had run away", "run away", "ran away"],
-correct: 1,
-level: "B1-B2"
-},
-{
-question: "Michael __________ on 26th November 1976.",
-options: ["born", "was born", "has born", "has been born"],
-correct: 1,
-level: "B1-B2"
-},
-{
-question: "I don't think you __________ to show your passport.",
-options: ["ask", "will ask", "will be asked", "will be asking"],
+question: "Es importante que __________ a la reunión puntual.",
+options: ["llegas", "llegues", "llegues", "llegabas"],
 correct: 2,
 level: "B1-B2"
 },
 {
-question: "Our company __________ with furniture by Wood's Ltd.",
-options: ["supplies", "is supplying", "has supplied", "is being supplied"],
-correct: 3,
-level: "B1-B2"
-},
-{
-question: "We __________ to wait in this room until their meeting is over.",
-options: ["were told", "told", "were telling", "tell"],
-correct: 0,
-level: "B1-B2"
-},
-{
-question: "It was 5 o'clock one hour ago. Your watch __________ be right!",
-options: ["mustn't", "shouldn't", "can't", "isn't"],
+question: "Si tuviera más tiempo, __________ más idiomas.",
+options: ["estudio", "estudiaré", "estudiaría", "estudiaba"],
 correct: 2,
 level: "B1-B2"
 },
 {
-question: "You __________ light up your cigarette in here, sir. Smoking is forbidden.",
-options: ["shouldn't", "mustn't", "couldn't", "wouldn't"],
+question: "Dudo que ellos __________ la verdad.",
+options: ["saben", "sepan", "sabían", "supieron"],
 correct: 1,
 level: "B1-B2"
 },
 {
-question: "I wonder why they haven't arrived yet. They __________ have got lost!",
-options: ["must", "ought to", "should", "need to"],
+question: "Estoy estudiando español __________ trabajar en España.",
+options: ["por", "para", "con", "de"],
+correct: 1,
+level: "B1-B2"
+},
+{
+question: "__________ el tráfico, llegamos tarde a la reunión.",
+options: ["Por", "Para", "Con", "De"],
+correct: 0,
+level: "B1-B2"
+},
+{
+question: "Me alegro de que __________ conseguido el trabajo.",
+options: ["has", "hayas", "tienes", "tenías"],
+correct: 1,
+level: "B1-B2"
+},
+{
+question: "__________ mucho frío, decidimos quedarnos en casa.",
+options: ["Hacía", "Hizo", "Hace", "Ha hecho"],
+correct: 0,
+level: "B1-B2"
+},
+{
+question: "No creo que __________ tiempo de terminar hoy.",
+options: ["tenemos", "tengamos", "tuvimos", "tuviéramos"],
+correct: 1,
+level: "B1-B2"
+},
+{
+question: "__________ hubiera sabido, habría llegado antes.",
+options: ["Si", "Como", "Aunque", "Porque"],
 correct: 0,
 level: "B1-B2"
 },
 
-// Upper-Intermediate (B2-C1) — Questions 31-36
+// B2-C1: Subjunctive Past, Compound Tenses (31-36)
 {
-question: "If you see Paul, __________ him to come to my office straightaway!",
-options: ["you tell", "you will tell", "you would tell", "you told"],
+question: "Era imposible que __________ terminado el trabajo tan rápido.",
+options: ["hubiera", "había", "hubo", "habría"],
 correct: 0,
 level: "B2-C1"
 },
 {
-question: "When Carla __________ older, she will do a course abroad.",
-options: ["will be", "be", "is", "to be"],
-correct: 2,
-level: "B2-C1"
-},
-{
-question: "If you had followed my instructions, that __________.",
-options: ["wouldn't happen", "didn't happen", "wouldn't have happened", "hasn't happened"],
-correct: 2,
-level: "B2-C1"
-},
-{
-question: "If you help me, I __________ the same for you one day.",
-options: ["will do", "do", "would do", "am doing"],
+question: "Cuando llegué, la película ya __________ empezado.",
+options: ["había", "hubiera", "ha", "haya"],
 correct: 0,
 level: "B2-C1"
 },
 {
-question: "I don't like apartments. I __________ happier if I lived in a house.",
-options: ["will be", "am", "would be", "have been"],
-correct: 2,
+question: "__________ me lo pidieras, no lo haría.",
+options: ["Aunque", "Si", "Como", "Porque"],
+correct: 0,
 level: "B2-C1"
 },
 {
-question: "The report __________ by the time the manager arrives tomorrow.",
-options: ["will finish", "will be finished", "finishes", "is finishing"],
-correct: 1,
+question: "Es probable que __________ llovido durante la noche.",
+options: ["haya", "ha", "hubiera", "había"],
+correct: 0,
+level: "B2-C1"
+},
+{
+question: "Para cuando lleguemos, ellos ya __________ ido.",
+options: ["habrán", "habían", "hubieran", "han"],
+correct: 0,
+level: "B2-C1"
+},
+{
+question: "No había nadie que __________ resolver el problema.",
+options: ["supiera", "sabía", "sepa", "sabe"],
+correct: 0,
 level: "B2-C1"
 },
 
-// Advanced (C1-C2) — Questions 37-40
+// C1-C2: Advanced Subjunctive, Literary, Complex (37-40)
 {
-question: "Had I known about the delay, I __________ earlier.",
-options: ["would leave", "would have left", "had left", "will have left"],
+question: "__________ no fuera por tu ayuda, no lo habría logrado.",
+options: ["De", "Si", "Como", "A"],
+correct: 0,
+level: "C1-C2"
+},
+{
+question: "Fue entonces cuando, por primera vez, __________ lo peligroso que era.",
+options: ["me di cuenta", "me di cuenta de", "darme cuenta", "darse cuenta"],
 correct: 1,
 level: "C1-C2"
 },
 {
-question: "Not only __________ the deadline, but he also exceeded expectations.",
-options: ["he met", "did he meet", "he did meet", "had he met"],
-correct: 1,
+question: "El director exigió que todos los empleados __________ presentes.",
+options: ["estuvieran", "estaban", "estén", "estuvieron"],
+correct: 0,
 level: "C1-C2"
 },
 {
-question: "The CEO insisted that every employee __________ the training session.",
-options: ["attends", "attend", "attended", "would attend"],
-correct: 1,
-level: "C1-C2"
-},
-{
-question: "Seldom __________ such a well-prepared presentation in my career.",
-options: ["I have seen", "I saw", "have I seen", "did I saw"],
-correct: 2,
+question: "__________ en cuenta los riesgos, decidió invertir igualmente.",
+options: ["Habiendo tomado", "Tomando", "Tomado", "Haber tomado"],
+correct: 0,
 level: "C1-C2"
 }
 ];
 
 const writingTasks = [
 {
-title: "Questão 1: Apresentação Pessoal",
-description: "Write a paragraph about yourself: your name, age, where you live, family, occupation, company, likes and dislikes.",
-translation: "Escreva um parágrafo sobre você: seu nome, idade, onde mora, família, profissão, empresa, o que gosta e o que não gosta."
+title: "Pregunta 1: Presentación Personal",
+description: "Escribe un párrafo sobre ti: tu nombre, edad, de dónde eres, tu familia, ocupación, empresa, qué te gusta y qué no te gusta.",
+translation: "Escreva um parágrafo sobre você: seu nome, idade, de onde você é, sua família, ocupação, empresa, o que gosta e o que não gosta."
 },
 {
-title: "Questão 2: Rotina de Trabalho",
-description: "Describe your typical workday from morning to evening. What do you do?",
+title: "Pregunta 2: Rutina de Trabajo",
+description: "Describe tu día de trabajo típico desde la mañana hasta la noche. ¿Qué haces?",
 translation: "Descreva seu dia de trabalho típico, da manhã até a noite. O que você faz?"
 },
 {
-title: "Questão 3: E-mail Profissional",
-description: "Write an email to a colleague explaining that you need to reschedule a meeting. Be professional and polite.",
+title: "Pregunta 3: Correo Profesional",
+description: "Escribe un correo electrónico a un colega explicando que necesitas reprogramar una reunión. Sé profesional y educado.",
 translation: "Escreva um e-mail para um colega explicando que você precisa remarcar uma reunião. Seja profissional e educado."
 },
 {
-title: "Questão 4: Mudanças na Indústria",
-description: "If you could change one thing about your industry, what would it be and why?",
+title: "Pregunta 4: Cambios en la Industria",
+description: "Si pudieras cambiar una cosa de tu industria, ¿qué sería y por qué?",
 translation: "Se você pudesse mudar uma coisa na sua indústria, o que seria e por quê?"
-}
-];
+}];
 
-// Test State
 const QUESTIONS_PER_PAGE = 8;
-const TOTAL_MC_PAGES = Math.ceil(mcQuestions.length / QUESTIONS_PER_PAGE); // 5
+const TOTAL_MC_PAGES = Math.ceil(mcQuestions.length / QUESTIONS_PER_PAGE);
 let currentStep = 1;
-let currentMCPage = 0; // 0-indexed page
+let currentMCPage = 0;
 let currentWritingTask = 0;
 let mcAnswers = [];
 let writingAnswers = [];
@@ -636,7 +562,6 @@ let personalData = {};
 let testStartTime = null;
 let testTimer = null;
 
-// Initialize Test
 document.addEventListener('DOMContentLoaded', function() {
 initializeTest();
 });
@@ -670,9 +595,9 @@ document.getElementById('progressBar').style.width = progress + '%';
 
 let progressText = '';
 switch(currentStep) {
-case 1: progressText = 'Dados Pessoais'; break;
-case 2: progressText = `Página ${currentMCPage + 1} de ${TOTAL_MC_PAGES} — Questões ${currentMCPage * QUESTIONS_PER_PAGE + 1}–${Math.min((currentMCPage + 1) * QUESTIONS_PER_PAGE, mcQuestions.length)}`; break;
-case 3: progressText = `Redação ${currentWritingTask + 1} de ${writingTasks.length}`; break;
+case 1: progressText = 'Datos Personales'; break;
+case 2: progressText = `Página ${currentMCPage + 1} de ${TOTAL_MC_PAGES} — Preguntas ${currentMCPage * QUESTIONS_PER_PAGE + 1}–${Math.min((currentMCPage + 1) * QUESTIONS_PER_PAGE, mcQuestions.length)}`; break;
+case 3: progressText = `Redacción ${currentWritingTask + 1} de ${writingTasks.length}`; break;
 case 4: progressText = 'Resultado Final'; break;
 }
 document.getElementById('progressText').textContent = progressText;
@@ -700,7 +625,6 @@ updateProgress();
 updateStepIndicators();
 }
 
-// STEP 1: Personal Details
 document.getElementById('personalForm').addEventListener('submit', function(e) {
 e.preventDefault();
 personalData = {
@@ -711,7 +635,7 @@ phone: document.getElementById('phone').value.trim()
 };
 
 if(!personalData.name || !personalData.email || !personalData.phone) {
-alert('Por favor, preencha todos os campos obrigatórios.');
+alert('Por favor, completa todos los campos obligatorios.');
 return;
 }
 
@@ -720,7 +644,6 @@ showStep(2);
 loadMCPage();
 });
 
-// STEP 2: Multiple Choice — 8 questions per page
 function loadMCPage() {
 const startIdx = currentMCPage * QUESTIONS_PER_PAGE;
 const endIdx = Math.min(startIdx + QUESTIONS_PER_PAGE, mcQuestions.length);
@@ -736,7 +659,7 @@ const q = mcQuestions[i];
 const card = document.createElement('div');
 card.className = 'mc-card';
 card.innerHTML = `
-<div class="mc-card-number">Questão ${i + 1} de 40</div>
+<div class="mc-card-number">Pregunta ${i + 1} de 40</div>
 <div class="mc-card-question">${q.question}</div>
 <div class="mc-card-options">
 ${q.options.map((opt, oi) => `
@@ -750,28 +673,23 @@ ${q.options.map((opt, oi) => `
 pageList.appendChild(card);
 }
 
-// Back button visibility
 document.getElementById('backBtn').style.display = currentMCPage > 0 ? 'inline-flex' : 'none';
-// Next button text
 const isLastPage = currentMCPage >= TOTAL_MC_PAGES - 1;
 document.getElementById('nextBtn').innerHTML = isLastPage ?
-'Próxima Etapa <i class="fas fa-arrow-right"></i>' :
-'Próxima Página <i class="fas fa-arrow-right"></i>';
+'Siguiente Etapa <i class="fas fa-arrow-right"></i>' :
+'Siguiente Página <i class="fas fa-arrow-right"></i>';
 
 updateProgress();
-// Scroll to top of container
 document.querySelector('.main-container').scrollIntoView({behavior:'smooth', block:'start'});
 }
 
 function selectMCOption(questionIdx, optionIdx) {
 mcAnswers[questionIdx] = optionIdx;
-// Re-render just the options for that question card
 const startIdx = currentMCPage * QUESTIONS_PER_PAGE;
 const cardIndex = questionIdx - startIdx;
 const cards = document.querySelectorAll('.mc-card');
 if(cards[cardIndex]) {
 const options = cards[cardIndex].querySelectorAll('.mc-option');
-const letters = ['A', 'B', 'C', 'D'];
 options.forEach((opt, oi) => {
 if(oi === optionIdx) {
 opt.classList.add('selected');
@@ -785,8 +703,6 @@ opt.querySelector('.mc-option-radio').innerHTML = '';
 }
 
 function nextPage() {
-// Questions are now optional - proceed without validation
-// Unanswered questions will count as 0 points in scoring
 currentMCPage++;
 if(currentMCPage >= TOTAL_MC_PAGES) {
 showStep(3);
@@ -804,7 +720,6 @@ loadMCPage();
 }
 }
 
-// STEP 3: Writing Tasks
 function loadWritingTask() {
 if(currentWritingTask >= writingTasks.length) {
 showStep(4);
@@ -820,10 +735,9 @@ document.getElementById('translationText').classList.remove('visible');
 document.getElementById('writingTextarea').value = writingAnswers[currentWritingTask] || '';
 updateCharCounter();
 
-// Update buttons
 document.getElementById('writingBackBtn').style.display = currentWritingTask > 0 ? 'inline-flex' : 'none';
 document.getElementById('writingNextBtn').innerHTML = currentWritingTask === writingTasks.length - 1 ? 
-'Finalizar <i class="fas fa-check"></i>' : 'Próxima <i class="fas fa-arrow-right"></i>';
+'Finalizar <i class="fas fa-check"></i>' : 'Siguiente <i class="fas fa-arrow-right"></i>';
 
 updateProgress();
 }
@@ -833,11 +747,7 @@ document.getElementById('translationText').classList.toggle('visible');
 }
 
 function nextWriting() {
-// Writing tasks are now optional - proceed without validation
-// Empty answers will count as 0 points in scoring
 const text = document.getElementById('writingTextarea').value.trim();
-document.getElementById('writingTextarea').style.border = '';
-document.getElementById('writingTextarea').style.boxShadow = '';
 writingAnswers[currentWritingTask] = text || '';
 currentWritingTask++;
 if(currentWritingTask >= writingTasks.length) {
@@ -863,10 +773,9 @@ const count = textarea.value.length;
 counter.textContent = `${count} caracteres`;
 }
 
-// STEP 4: Results
 function calculateResults() {
 let mcScore = 0;
-let mcTotal = mcQuestions.length * 1.9; // 40 * 1.9 = 76
+let mcTotal = mcQuestions.length * 1.9;
 
 mcAnswers.forEach((answer, index) => {
 if(answer === mcQuestions[index].correct) {
@@ -874,7 +783,6 @@ mcScore += 1.9;
 }
 });
 
-// Mastery-based level determination (Cambridge-style)
 const bands = [
   { name: 'A1-A2', start: 0, end: 12, threshold: 0.7 },
   { name: 'A2-B1', start: 12, end: 20, threshold: 0.7 },
@@ -891,19 +799,17 @@ const bandResults = bands.map(band => {
   return { name: band.name, correct, total, pct: correct / total, passed: (correct / total) >= band.threshold };
 });
 
-let level = 'A1 (Beginner)';
-let levelClass = 'level-a1';
+let level = 'A1 (Principiante)';
 const levelMap = [
-  { band: 0, level: 'A2 (Elementary)', cls: 'level-a2' },
-  { band: 1, level: 'B1 (Intermediate)', cls: 'level-b1' },
-  { band: 2, level: 'B2 (Upper Intermediate)', cls: 'level-b2' },
-  { band: 3, level: 'C1 (Advanced)', cls: 'level-c1' },
-  { band: 4, level: 'C2 (Proficient)', cls: 'level-c2' }
+  { band: 0, level: 'A2 (Elemental)' },
+  { band: 1, level: 'B1 (Intermedio)' },
+  { band: 2, level: 'B2 (Intermedio Alto)' },
+  { band: 3, level: 'C1 (Avanzado)' },
+  { band: 4, level: 'C2 (Dominio)' }
 ];
 for (const lm of levelMap) {
   if (bandResults[lm.band].passed) {
     level = lm.level;
-    levelClass = lm.cls;
   } else {
     break;
   }
@@ -913,7 +819,6 @@ updateProgress();
 submitResults(mcScore, level, bandResults);
 }
 
-// Webhook Submission
 async function submitResults(mcScore, level, bandResults) {
 const testData = {
 lead: {
@@ -952,7 +857,7 @@ timestamp: new Date().toISOString()
 };
 
 try {
-const response = await fetch('https://n8n.lfsadigital.com/webhook/b2b-placement-test', {
+const response = await fetch('https://n8n.lfsadigital.com/webhook/b2b-spanish-placement-test', {
 method: 'POST',
 headers: {
 'Content-Type': 'application/json'
@@ -968,7 +873,6 @@ console.error('Error submitting test results:', error);
 }
 }
 
-// Phone number formatting
 document.getElementById('phone').addEventListener('input', function(e) {
 let value = e.target.value.replace(/\D/g, '');
 if(value.length >= 11) {
@@ -981,34 +885,11 @@ value = value.replace(/(\d{2})(\d{0,5})/, '($1) $2');
 e.target.value = value;
 });
 
-// Cleanup timer on page unload
 window.addEventListener('beforeunload', function() {
 if(testTimer) {
 clearInterval(testTimer);
 }
 });
-
-// DEV MODE: ?dev=1 auto-fills and submits with random answers
-(function devCheck() {
-if(new URLSearchParams(window.location.search).get('dev') !== '1') return;
-function runDev() {
-var nameEl = document.getElementById('name');
-var emailEl = document.getElementById('email');
-var phoneEl = document.getElementById('phone');
-var companyEl = document.getElementById('company');
-if(!nameEl) { setTimeout(runDev, 100); return; }
-nameEl.value = 'Teste Dev';
-emailEl.value = 'dev@test.com';
-phoneEl.value = '11999999999';
-if(companyEl) companyEl.value = 'LFSA Digital';
-personalData = {name:'Teste Dev', company:'LFSA Digital', email:'dev@test.com', phone:'11999999999'};
-mcAnswers = mcQuestions.map(function(){ return Math.floor(Math.random()*4); });
-writingAnswers = writingTasks.map(function(t,i){ return 'Dev test response for writing task number '+(i+1)+'. This is a sample answer to test the placement system.'; });
-calculateResults();
-}
-if(document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', runDev); }
-else { setTimeout(runDev, 200); }
-})();
 </script>
 
 </body>
