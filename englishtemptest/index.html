@@ -187,6 +187,11 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--gray-dark);li
 .recorder-status{margin-bottom:20px}
 .recorder-status i{font-size:48px;color:var(--gray-light);margin-bottom:12px;display:block}
 .recorder-status.recording i{color:var(--red);animation:pulse 1.5s infinite}
+/* Hide audio element errors/pseudo elements */
+audio::-webkit-media-controls-panel{display:flex!important}
+audio:invalid,audio::-webkit-media-controls-enclosure{opacity:1!important}
+audio::-webkit-media-controls-error{display:none!important}
+audio[src=""],audio:not([src]){display:none!important}
 @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.1)}100%{transform:scale(1)}}
 .recorder-status p{color:var(--gray);font-size:0.95rem;margin:0}
 .recorder-controls{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
@@ -198,6 +203,15 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--gray-dark);li
 .recording-timer{color:var(--red);font-weight:600;font-size:1.1rem;margin-top:16px}
 .audio-playback audio{width:100%;max-width:400px}
 .upload-progress{color:var(--gray);font-size:0.9rem}
+/* Hide audio element errors */
+audio::-webkit-media-controls-error{display:none!important}
+audio::before,audio::after{content:none!important}
+/* Force hide error messages by default */
+.upload-error{display:none!important}
+.upload-error.show{display:block!important}
+/* Description hidden state for audio questions */
+.description-hidden{display:none}
+.description-hint{font-size:0.85rem;color:var(--gray-light);font-style:italic;margin-top:8px}
 </style>
 </head>
 <body>
@@ -233,7 +247,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--gray-dark);li
 
 <!-- STEP 1: Personal Details -->
 <div id="step1" class="test-step">
-<form id="personalForm">
+<form id="personalForm" method="POST" action="#">
 <input type="hidden" id="languageInterest" name="languageInterest" value="english">
 
 <div class="form-group">
@@ -754,16 +768,16 @@ translation: "Por que você está estudando inglês e como acha que isso vai aju
 {
 type: 'audio',
 title: "Questão 3: Resposta Oral - Rotina de Trabalho",
-description: "Listen to the question and record your response.",
+description: "Describe your typical workday from morning to evening.",
 audioUrl: "./audio1.wav",
-translation: "Ouça a pergunta e grave sua resposta."
+translation: "Descreva seu dia de trabalho típico, da manhã até a noite."
 },
 {
 type: 'audio',
 title: "Questão 4: Resposta Oral - Viagem Memorável",
-description: "Listen to the question and record your response.",
+description: "What was your most memorable trip? Why was it special?",
 audioUrl: "./audio2.wav",
-translation: "Ouça a pergunta e grave sua resposta."
+translation: "Qual foi sua viagem mais memorável? Por que foi especial?"
 }];
 
 // Legacy alias for compatibility
@@ -980,62 +994,181 @@ calculateResults();
 return;
 }
 
-// Update step based on task type
 const task = writingTasks[currentWritingTask];
-if(task.type === 'writing' && currentStep !== 3) {
-currentStep = 3;
-updateStepIndicators();
-} else if(task.type === 'audio' && currentStep !== 4) {
+
+// Tasks 0-1 (first 2) use step 3, tasks 2-3 (last 2) use step 4
+const useStep4 = currentWritingTask >= 2;
+
+// Switch steps if needed
+if(useStep4 && currentStep !== 4) {
 currentStep = 4;
 updateStepIndicators();
+showStep(4);
+} else if(!useStep4 && currentStep !== 3) {
+currentStep = 3;
+updateStepIndicators();
+showStep(3);
 }
 
-const task = writingTasks[currentWritingTask];
-document.getElementById('writingTitle').textContent = task.title;
-document.getElementById('writingDescription').textContent = task.description;
-document.getElementById('translationText').textContent = task.translation;
-document.getElementById('translationText').classList.remove('visible');
+// Get element IDs based on step
+const titleEl = document.getElementById(useStep4 ? 'writingTitle4' : 'writingTitle');
+const descEl = document.getElementById(useStep4 ? 'writingDescription4' : 'writingDescription');
+const transEl = document.getElementById(useStep4 ? 'translationText4' : 'translationText');
+const audioContainerEl = document.getElementById(useStep4 ? 'questionAudioContainer4' : 'questionAudioContainer');
+const audioEl = document.getElementById(useStep4 ? 'questionAudio4' : 'questionAudio');
+const recorderContainerEl = document.getElementById(useStep4 ? 'audioRecorderContainer4' : 'audioRecorderContainer');
+const backBtnEl = document.getElementById(useStep4 ? 'writingBackBtn4' : 'writingBackBtn');
+const nextBtnEl = document.getElementById(useStep4 ? 'writingNextBtn4' : 'writingNextBtn');
+
+if(titleEl) titleEl.textContent = task.title;
+
+// For audio questions (tasks 2 and 3, indices 2 and 3), hide description initially, show on 2nd play
+const isAudioQuestion = task.type === 'audio';
+if(descEl) {
+if(isAudioQuestion) {
+// Hide description initially for audio questions
+descEl.style.display = 'none';
+descEl.classList.add('description-hidden');
+// Store description in data attribute for later
+descEl.dataset.description = task.description;
+} else {
+// Show normally for writing tasks
+descEl.textContent = task.description;
+descEl.style.display = 'block';
+descEl.classList.remove('description-hidden');
+}
+}
+
+if(transEl) {
+transEl.textContent = task.translation;
+transEl.classList.remove('visible');
+}
 
 // Reset audio recorder UI
+if(useStep4) {
+resetRecordingUI4();
+} else {
 resetRecordingUI();
+}
 
 // Show/hide appropriate UI based on task type
 if(task.type === 'audio') {
-// Audio task - show audio player and recorder, hide textarea
+// Audio task
 const savedUrl = writingAnswers[currentWritingTask];
 if(savedUrl && savedUrl.startsWith('http')) {
-// Has saved Cloudinary URL
-showAudioPlayback(savedUrl);
+if(useStep4) {
+document.getElementById('recordedAudio4').src = savedUrl;
+document.getElementById('audioPlayback4').style.display = 'block';
+document.getElementById('audioReady4').style.display = 'block';
+document.getElementById('audioRerecordMsg4').style.display = 'block';
+document.getElementById('recordBtn4').style.display = 'none';
+document.getElementById('recorderBox4').classList.add('has-recording');
+}
 }
 document.getElementById('writingTextarea').style.display = 'none';
 document.getElementById('charCounter').style.display = 'none';
-document.getElementById('audioRecorderContainer').style.display = 'block';
+if(recorderContainerEl) recorderContainerEl.style.display = 'block';
+// Hide other step's recorder
+const otherRecorder = document.getElementById(useStep4 ? 'audioRecorderContainer' : 'audioRecorderContainer4');
+if(otherRecorder) otherRecorder.style.display = 'none';
+
 // Setup question audio player
-const questionAudio = document.getElementById('questionAudio');
-const questionAudioContainer = document.getElementById('questionAudioContainer');
-if(task.audioUrl) {
-questionAudio.src = task.audioUrl;
-questionAudioContainer.style.display = 'block';
-} else {
-questionAudioContainer.style.display = 'none';
+if(audioEl && audioContainerEl && task.audioUrl) {
+audioEl.src = task.audioUrl;
+audioContainerEl.style.display = 'block';
+
+// For audio questions, track full plays and show description only after 2nd FULL play
+if(isAudioQuestion) {
+// Reset counters
+audioEl.dataset.playCount = '0';
+audioEl.dataset.hasCompleted = 'false';
+// Remove old listeners if exists
+if(audioEl._playHandler) audioEl.removeEventListener('play', audioEl._playHandler);
+if(audioEl._endHandler) audioEl.removeEventListener('ended', audioEl._endHandler);
+
+// Track when audio fully completes
+audioEl._endHandler = function() {
+audioEl.dataset.hasCompleted = 'true';
+};
+audioEl.addEventListener('ended', audioEl._endHandler);
+
+// Add play listener - only counts if previous play completed
+audioEl._playHandler = function() {
+const hasCompleted = audioEl.dataset.hasCompleted === 'true';
+let count = parseInt(audioEl.dataset.playCount || '0');
+
+// Only count this play if the previous one completed
+if(hasCompleted || count === 0) {
+count++;
+audioEl.dataset.playCount = count.toString();
+audioEl.dataset.hasCompleted = 'false'; // Reset for next time
 }
+
+// Show description on 2nd full play
+if(count === 2) {
+const descId = useStep4 ? 'writingDescription4' : 'writingDescription';
+const desc = document.getElementById(descId);
+if(desc && desc.dataset.description) {
+desc.textContent = desc.dataset.description;
+desc.style.display = 'block';
+desc.classList.remove('description-hidden');
+}
+}
+};
+audioEl.addEventListener('play', audioEl._playHandler);
+}
+} else if(audioContainerEl) {
+audioContainerEl.style.display = 'none';
+}
+// Hide other step's audio player
+const otherAudioContainer = document.getElementById(useStep4 ? 'questionAudioContainer' : 'questionAudioContainer4');
+if(otherAudioContainer) otherAudioContainer.style.display = 'none';
 } else {
-// Writing task - show textarea, hide audio recorder
+// Writing task
 const textarea = document.getElementById('writingTextarea');
+if(textarea) {
 textarea.style.display = 'block';
 textarea.value = writingAnswers[currentWritingTask] || '';
+}
 document.getElementById('charCounter').style.display = 'block';
 document.getElementById('audioRecorderContainer').style.display = 'none';
+document.getElementById('audioRecorderContainer4').style.display = 'none';
 document.getElementById('questionAudioContainer').style.display = 'none';
+document.getElementById('questionAudioContainer4').style.display = 'none';
 updateCharCounter();
 }
 
-// Update buttons - show back button on ALL questions (including first)
-document.getElementById('writingBackBtn').style.display = 'inline-flex';
-document.getElementById('writingNextBtn').innerHTML = currentWritingTask === writingTasks.length - 1 ? 
+// Update buttons
+if(backBtnEl) backBtnEl.style.display = 'inline-flex';
+if(nextBtnEl) {
+nextBtnEl.innerHTML = currentWritingTask === writingTasks.length - 1 ? 
 'Finalizar <i class="fas fa-check"></i>' : 'Próxima <i class="fas fa-arrow-right"></i>';
+}
 
 updateProgress();
+}
+
+function resetRecordingUI4() {
+currentAudioBlob = null;
+if(mediaRecorder && mediaRecorder.state !== 'inactive') {
+mediaRecorder.stop();
+}
+mediaRecorder = null;
+audioChunks = [];
+clearInterval(recordingTimerInterval);
+
+document.getElementById('recordBtn4').style.display = 'inline-flex';
+document.getElementById('stopBtn4').style.display = 'none';
+document.getElementById('recordingTimer4').style.display = 'none';
+document.getElementById('audioPlayback4').style.display = 'none';
+document.getElementById('audioReady4').style.display = 'none';
+document.getElementById('audioRerecordMsg4').style.display = 'none';
+document.getElementById('uploadStatus4').style.display = 'none';
+document.getElementById('uploadSuccess4').style.display = 'none';
+document.getElementById('uploadError4').style.display = 'none';
+document.getElementById('recorderStatus4').classList.remove('recording');
+document.getElementById('recorderBox4').classList.remove('recording', 'has-recording');
+document.getElementById('recorderStatus4').innerHTML = '<i class="fas fa-microphone"></i><p>Clique no botão abaixo para gravar sua resposta</p>';
 }
 
 // Audio Recording Functions
@@ -1085,7 +1218,9 @@ if(e.data.size > 0) audioChunks.push(e.data);
 };
 
 mediaRecorder.onstop = async () => {
-const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+// Use mp4 for Safari compatibility, fallback to webm
+const mimeType = MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : 'audio/webm';
+const audioBlob = new Blob(audioChunks, { type: mimeType });
 currentAudioBlob = audioBlob;
 const audioUrl = URL.createObjectURL(audioBlob);
 document.getElementById('recordedAudio').src = audioUrl;
@@ -1133,6 +1268,95 @@ resetRecordingUI();
 writingAnswers[currentWritingTask] = '';
 }
 
+// Step 4 Audio Recording Functions (for second audio question)
+async function startRecording4() {
+// Use same logic as startRecording but with step 4 elements
+const step4 = true;
+try {
+const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+mediaRecorder = new MediaRecorder(stream);
+audioChunks = [];
+
+mediaRecorder.ondataavailable = (e) => {
+if(e.data.size > 0) audioChunks.push(e.data);
+};
+
+mediaRecorder.onstop = async () => {
+// Use mp4 for Safari compatibility, fallback to webm
+const mimeType = MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : 'audio/webm';
+const audioBlob = new Blob(audioChunks, { type: mimeType });
+currentAudioBlob = audioBlob;
+const audioUrl = URL.createObjectURL(audioBlob);
+document.getElementById('recordedAudio4').src = audioUrl;
+document.getElementById('audioPlayback4').style.display = 'block';
+document.getElementById('audioReady4').style.display = 'block';
+document.getElementById('audioRerecordMsg4').style.display = 'block';
+document.getElementById('recorderBox4').classList.add('has-recording');
+
+stream.getTracks().forEach(track => track.stop());
+};
+
+mediaRecorder.start();
+recordingStartTime = Date.now();
+
+// Update UI for step 4
+document.getElementById('recordBtn4').style.display = 'none';
+document.getElementById('stopBtn4').style.display = 'inline-flex';
+document.getElementById('recordingTimer4').style.display = 'block';
+document.getElementById('recorderStatus4').classList.add('recording');
+document.getElementById('recorderBox4').classList.add('recording');
+
+// Start timer for step 4
+recordingTimerInterval = setInterval(() => {
+const elapsed = Math.floor((Date.now() - recordingStartTime) / 1000);
+const minutes = Math.floor(elapsed / 60);
+const seconds = elapsed % 60;
+document.getElementById('timerDisplay4').textContent = 
+`${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+}, 1000);
+
+} catch(err) {
+console.error('Error accessing microphone:', err);
+alert('Erro ao acessar o microfone. Por favor, permita o acesso e tente novamente.');
+}
+}
+
+function stopRecording4() {
+if(mediaRecorder && mediaRecorder.state !== 'inactive') {
+mediaRecorder.stop();
+clearInterval(recordingTimerInterval);
+document.getElementById('stopBtn4').style.display = 'none';
+document.getElementById('recorderStatus4').classList.remove('recording');
+document.getElementById('recorderBox4').classList.remove('recording');
+}
+}
+
+function resetRecording4() {
+// Reset for step 4
+currentAudioBlob = null;
+if(mediaRecorder && mediaRecorder.state !== 'inactive') {
+mediaRecorder.stop();
+}
+mediaRecorder = null;
+audioChunks = [];
+clearInterval(recordingTimerInterval);
+
+document.getElementById('recordBtn4').style.display = 'inline-flex';
+document.getElementById('stopBtn4').style.display = 'none';
+document.getElementById('recordingTimer4').style.display = 'none';
+document.getElementById('audioPlayback4').style.display = 'none';
+document.getElementById('audioReady4').style.display = 'none';
+document.getElementById('audioRerecordMsg4').style.display = 'none';
+document.getElementById('uploadStatus4').style.display = 'none';
+document.getElementById('uploadSuccess4').style.display = 'none';
+document.getElementById('uploadError4').style.display = 'none';
+document.getElementById('recorderStatus4').classList.remove('recording');
+document.getElementById('recorderBox4').classList.remove('recording', 'has-recording');
+document.getElementById('recorderStatus4').innerHTML = '<i class="fas fa-microphone"></i><p>Clique no botão abaixo para gravar sua resposta</p>';
+
+writingAnswers[currentWritingTask] = '';
+}
+
 function updateRecordingTimer() {
 const elapsed = Math.floor((Date.now() - recordingStartTime) / 1000);
 const minutes = Math.floor(elapsed / 60);
@@ -1142,12 +1366,16 @@ document.getElementById('timerDisplay').textContent =
 }
 
 async function uploadToCloudinary(audioBlob) {
-const statusEl = document.getElementById('uploadStatus');
-const errorEl = document.getElementById('uploadError');
-const errorTextEl = document.getElementById('uploadErrorText');
+const useStep4 = currentWritingTask >= 2;
+const statusEl = document.getElementById(useStep4 ? 'uploadStatus4' : 'uploadStatus');
+const errorEl = document.getElementById(useStep4 ? 'uploadError4' : 'uploadError');
+const errorTextEl = document.getElementById(useStep4 ? 'uploadErrorText4' : 'uploadErrorText');
 
-statusEl.style.display = 'block';
+if(statusEl) statusEl.style.display = 'block';
+if(errorEl) {
 errorEl.style.display = 'none';
+errorEl.classList.remove('show');
+}
 
 try {
 const formData = new FormData();
@@ -1168,14 +1396,20 @@ const data = await response.json();
 // Store the Cloudinary URL
 writingAnswers[currentWritingTask] = data.secure_url;
 
-statusEl.style.display = 'none';
+if(statusEl) statusEl.style.display = 'none';
 return true;
 
 } catch(err) {
 console.error('Upload error:', err);
-statusEl.style.display = 'none';
+// Only show error if upload actually failed (no URL saved)
+if(!writingAnswers[currentWritingTask]) {
+if(statusEl) statusEl.style.display = 'none';
+if(errorEl) {
 errorTextEl.textContent = 'Erro ao enviar: ' + (err.message || 'Tente novamente');
 errorEl.style.display = 'block';
+errorEl.classList.add('show');
+}
+}
 return false;
 }
 }
@@ -1186,14 +1420,17 @@ document.getElementById('translationText').classList.toggle('visible');
 
 async function nextWriting() {
 const task = writingTasks[currentWritingTask];
+const useStep4 = currentWritingTask >= 2;
 
 if(task.type === 'audio') {
 // For audio tasks, upload to Cloudinary if we have a blob
 if(currentAudioBlob && !writingAnswers[currentWritingTask]) {
-document.getElementById('uploadStatus').style.display = 'block';
+const uploadStatusEl = document.getElementById(useStep4 ? 'uploadStatus4' : 'uploadStatus');
+const uploadSuccessEl = document.getElementById(useStep4 ? 'uploadSuccess4' : 'uploadSuccess');
+if(uploadStatusEl) uploadStatusEl.style.display = 'block';
 const success = await uploadToCloudinary(currentAudioBlob);
-if(success) {
-document.getElementById('uploadSuccess').style.display = 'block';
+if(success && uploadSuccessEl) {
+uploadSuccessEl.style.display = 'block';
 }
 }
 // If no recording, save empty
@@ -1210,7 +1447,7 @@ writingAnswers[currentWritingTask] = text || '';
 
 currentWritingTask++;
 if(currentWritingTask >= writingTasks.length) {
-showStep(4);
+showStep(5);
 calculateResults();
 } else {
 loadWritingTask();
