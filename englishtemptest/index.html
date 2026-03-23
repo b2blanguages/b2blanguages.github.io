@@ -213,17 +213,34 @@ audio::before,audio::after{content:none!important}
 .description-hidden{display:none}
 .description-hint{font-size:0.85rem;color:var(--gray-light);font-style:italic;margin-top:8px}
 
-/* AUDIO RECORDER CLEAN UI - Hide old elements */
-.recorder-status p{display:none}
-.audio-ready{display:none!important}
+/* AUDIO RECORDER - NEW CLEAN STATE-BASED UI */
+.recorder-state{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:200px;padding:24px}
 
-/* Big centered record button */
-.recorder-controls{justify-content:center}
-.btn-record{padding:18px 36px;font-size:1.1rem}
+/* State 1: Initial - Big Record Button */
+.state-initial .big-record-btn{display:flex;flex-direction:column;align-items:center;gap:16px;cursor:pointer;transition:var(--transition)}
+.state-initial .big-record-btn:hover{transform:scale(1.05)}
+.state-initial .record-circle{width:100px;height:100px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(140,49,36,0.3);transition:var(--transition)}
+.state-initial .big-record-btn:hover .record-circle{background:var(--red-light);box-shadow:0 12px 40px rgba(140,49,36,0.4)}
+.state-initial .record-circle i{font-size:40px;color:var(--white)}
+.state-initial .record-label{font-size:1.2rem;font-weight:600;color:var(--gray-dark)}
 
-/* Clean playback UI */
-.audio-playback{background:var(--bg);padding:20px;border-radius:var(--border-radius);border:2px solid #e5e5e5}
-.audio-playback>p:first-child{display:none}
+/* State 2: Recording - Timer + Stop */
+.state-recording .recording-indicator{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.state-recording .recording-pulse{width:14px;height:14px;border-radius:50%;background:var(--red);animation:recPulse 1.5s infinite}
+@keyframes recPulse{0%{transform:scale(1);opacity:1}50%{transform:scale(1.2);opacity:0.7}100%{transform:scale(1);opacity:1}}
+.state-recording .recording-text{color:var(--red);font-weight:600;font-size:1rem}
+.state-recording .big-timer{font-size:3.5rem;font-weight:700;color:var(--gray-dark);font-family:var(--font-head);margin-bottom:20px;line-height:1}
+.state-recording .btn-stop-big{background:#dc3545;color:var(--white);padding:14px 36px;border:none;border-radius:50px;font-size:1rem;font-weight:600;cursor:pointer;transition:var(--transition);display:inline-flex;align-items:center;gap:10px}
+.state-recording .btn-stop-big:hover{background:#c82333;transform:translateY(-2px);box-shadow:0 8px 25px rgba(220,53,69,0.3)}
+
+/* State 3: Playback - Success + Audio + Re-record */
+.state-playback{width:100%;max-width:480px}
+.state-playback .audio-success{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:20px;color:#28a745;font-size:1rem;font-weight:500}
+.state-playback .audio-success i{font-size:20px}
+.state-playback .audio-playback-wrapper{background:var(--bg);padding:16px 20px;border-radius:var(--border-radius);border:2px solid #e5e5e5;margin-bottom:20px}
+.state-playback .audio-playback-wrapper audio{width:100%;height:40px}
+.state-playback .btn-rerecord{background:var(--white);color:var(--gray-dark);padding:12px 28px;border:2px solid #e5e5e5;border-radius:var(--border-radius);font-size:0.95rem;font-weight:500;cursor:pointer;transition:var(--transition);display:inline-flex;align-items:center;gap:8px}
+.state-playback .btn-rerecord:hover{border-color:var(--red);color:var(--red)}
 </style>
 </head>
 <body>
@@ -325,53 +342,51 @@ Próxima Página
 <!-- Writing response area -->
 <textarea id="writingTextarea" class="writing-textarea" placeholder="Escreva sua resposta aqui..." oninput="updateCharCounter()"></textarea>
 
-<!-- Audio recording area -->
+<!-- Audio recording area - STEP 3 -->
 <div id="audioRecorderContainer" class="audio-recorder-container" style="display:none;">
-<!-- 30 seconds hint -->
-<div style="background:rgba(40,167,69,0.1);border-left:3px solid #28a745;padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:0.9rem;color:var(--gray-dark);">
-<i class="fas fa-info-circle" style="color:#28a745;margin-right:8px;"></i>
-<strong>30 segundos</strong> de resposta em áudio é suficiente
-</div>
 <div class="audio-recorder-box" id="recorderBox">
-<div class="recorder-status" id="recorderStatus">
+
+<!-- STATE 1: Initial - Big Record Button -->
+<div id="recorderState1" class="recorder-state state-initial">
+<div class="big-record-btn" onclick="startRecording()">
+<div class="record-circle">
 <i class="fas fa-microphone"></i>
-<p>Clique no botão abaixo para gravar sua resposta</p>
 </div>
-<div class="recorder-controls" id="recorderControls">
-<button type="button" class="btn btn-record" id="recordBtn" onclick="startRecording()">
-<i class="fas fa-circle"></i> Gravar
-</button>
-<button type="button" class="btn btn-stop" id="stopBtn" onclick="stopRecording()" style="display:none;">
+<span class="record-label">Gravar</span>
+</div>
+</div>
+
+<!-- STATE 2: Recording - Timer + Stop -->
+<div id="recorderState2" class="recorder-state state-recording" style="display:none;">
+<div class="recording-indicator">
+<div class="recording-pulse"></div>
+<span class="recording-text">Gravando...</span>
+</div>
+<div class="big-timer" id="timerDisplay">00:00</div>
+<button type="button" class="btn-stop-big" onclick="stopRecording()">
 <i class="fas fa-stop"></i> Parar
 </button>
 </div>
-<div class="recording-timer" id="recordingTimer" style="display:none;">
-<i class="fas fa-clock"></i> <span id="timerDisplay">00:00</span>
+
+<!-- STATE 3: Playback - Success + Audio + Re-record -->
+<div id="recorderState3" class="recorder-state state-playback" style="display:none;">
+<div class="audio-success">
+<i class="fas fa-check-circle"></i>
+<span>Áudio gravado com sucesso</span>
 </div>
-<!-- Ready message (small) -->
-<div class="audio-ready" id="audioReady" style="display:none;margin-top:16px;color:#28a745;font-size:0.85rem;">
-<i class="fas fa-check-circle"></i> Áudio pronto
-</div>
-<!-- Can re-record message (larger) -->
-<div class="audio-rerecord-msg" id="audioRerecordMsg" style="display:none;margin-top:8px;padding:12px;background:rgba(140,49,36,0.05);border-radius:8px;color:var(--gray-dark);font-size:0.95rem;">
-<i class="fas fa-info-circle" style="color:var(--red);margin-right:8px;"></i>
-Você pode regravar se quiser
-</div>
-<div class="audio-playback" id="audioPlayback" style="display:none;margin-top:16px;">
-<p style="font-size:0.9rem;color:var(--gray);margin-bottom:8px;"><i class="fas fa-play-circle"></i> Sua gravação:</p>
+<div class="audio-playback-wrapper">
 <audio id="recordedAudio" controls style="width:100%;"></audio>
-<div style="margin-top:12px;">
-<button type="button" class="btn btn-secondary" id="rerecordBtn" onclick="resetRecording()">
+</div>
+<button type="button" class="btn-rerecord" onclick="resetRecording()">
 <i class="fas fa-redo"></i> Regravar
 </button>
 </div>
-</div>
-<div class="upload-status" id="uploadStatus" style="display:none;margin-top:12px;">
+
+<div class="upload-status" id="uploadStatus" style="display:none;margin-top:16px;">
 <div class="upload-progress">
 <i class="fas fa-spinner fa-spin"></i> <span id="uploadText">Enviando áudio...</span>
 </div>
 </div>
-<!-- Success message (only shown after clicking Next) -->
 <div class="upload-success" id="uploadSuccess" style="display:none;margin-top:12px;color:#28a745;">
 <i class="fas fa-check-circle"></i> Áudio enviado com sucesso!
 </div>
@@ -409,37 +424,47 @@ Próxima
 <span class="translation-toggle" id="translationToggle4" onclick="toggleTranslation()"><i class="fas fa-info-circle"></i> PT-BR</span>
 <p class="translation-text" id="translationText4"></p>
 </div>
-<!-- Audio recording area -->
+<!-- Audio recording area - STEP 4 -->
 <div id="audioRecorderContainer4" class="audio-recorder-container" style="display:none;">
 <div class="audio-recorder-box" id="recorderBox4">
-<div class="recorder-status" id="recorderStatus4">
+
+<!-- STATE 1: Initial - Big Record Button -->
+<div id="recorderState1_4" class="recorder-state state-initial">
+<div class="big-record-btn" onclick="startRecording4()">
+<div class="record-circle">
 <i class="fas fa-microphone"></i>
-<p>Clique no botão abaixo para gravar sua resposta</p>
 </div>
-<div class="recorder-controls" id="recorderControls4">
-<button type="button" class="btn btn-record" id="recordBtn4" onclick="startRecording4()">
-<i class="fas fa-circle"></i> Gravar
-</button>
-<button type="button" class="btn btn-stop" id="stopBtn4" onclick="stopRecording4()" style="display:none;">
+<span class="record-label">Gravar</span>
+</div>
+</div>
+
+<!-- STATE 2: Recording - Timer + Stop -->
+<div id="recorderState2_4" class="recorder-state state-recording" style="display:none;">
+<div class="recording-indicator">
+<div class="recording-pulse"></div>
+<span class="recording-text">Gravando...</span>
+</div>
+<div class="big-timer" id="timerDisplay4">00:00</div>
+<button type="button" class="btn-stop-big" onclick="stopRecording4()">
 <i class="fas fa-stop"></i> Parar
 </button>
 </div>
-<div class="recording-timer" id="recordingTimer4" style="display:none;">
-<i class="fas fa-clock"></i> <span id="timerDisplay4">00:00</span>
+
+<!-- STATE 3: Playback - Success + Audio + Re-record -->
+<div id="recorderState3_4" class="recorder-state state-playback" style="display:none;">
+<div class="audio-success">
+<i class="fas fa-check-circle"></i>
+<span>Áudio gravado com sucesso</span>
 </div>
-<div class="audio-ready" id="audioReady4" style="display:none;margin-top:12px;color:#28a745;font-size:0.9rem;text-align:center;">
-<i class="fas fa-check-circle"></i> Áudio gravado — você pode regravar se quiser
-</div>
-<div class="audio-playback" id="audioPlayback4" style="display:none;margin-top:16px;">
-<p style="font-size:0.9rem;color:var(--gray);margin-bottom:8px;"><i class="fas fa-play-circle"></i> Sua gravação:</p>
+<div class="audio-playback-wrapper">
 <audio id="recordedAudio4" controls style="width:100%;"></audio>
-<div style="margin-top:12px;">
-<button type="button" class="btn btn-secondary" id="rerecordBtn4" onclick="resetRecording4()">
+</div>
+<button type="button" class="btn-rerecord" onclick="resetRecording4()">
 <i class="fas fa-redo"></i> Regravar
 </button>
 </div>
-</div>
-<div class="upload-status" id="uploadStatus4" style="display:none;margin-top:12px;">
+
+<div class="upload-status" id="uploadStatus4" style="display:none;margin-top:16px;">
 <div class="upload-progress">
 <i class="fas fa-spinner fa-spin"></i> <span id="uploadText4">Enviando áudio...</span>
 </div>
