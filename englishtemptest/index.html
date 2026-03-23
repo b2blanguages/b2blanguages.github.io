@@ -187,6 +187,11 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--gray-dark);li
 .recorder-status{margin-bottom:20px}
 .recorder-status i{font-size:48px;color:var(--gray-light);margin-bottom:12px;display:block}
 .recorder-status.recording i{color:var(--red);animation:pulse 1.5s infinite}
+/* Hide audio element errors/pseudo elements */
+audio::-webkit-media-controls-panel{display:flex!important}
+audio:invalid,audio::-webkit-media-controls-enclosure{opacity:1!important}
+audio::-webkit-media-controls-error{display:none!important}
+audio[src=""],audio:not([src]){display:none!important}
 @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.1)}100%{transform:scale(1)}}
 .recorder-status p{color:var(--gray);font-size:0.95rem;margin:0}
 .recorder-controls{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
@@ -198,8 +203,12 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--gray-dark);li
 .recording-timer{color:var(--red);font-weight:600;font-size:1.1rem;margin-top:16px}
 .audio-playback audio{width:100%;max-width:400px}
 .upload-progress{color:var(--gray);font-size:0.9rem}
+/* Hide audio element errors */
+audio::-webkit-media-controls-error{display:none!important}
+audio::before,audio::after{content:none!important}
 /* Force hide error messages by default */
 .upload-error{display:none!important}
+.upload-error.show{display:block!important}
 /* Description hidden state for audio questions */
 .description-hidden{display:none}
 .description-hint{font-size:0.85rem;color:var(--gray-light);font-style:italic;margin-top:8px}
@@ -1068,20 +1077,34 @@ if(audioEl && audioContainerEl && task.audioUrl) {
 audioEl.src = task.audioUrl;
 audioContainerEl.style.display = 'block';
 
-// For audio questions, track plays and show description on 2nd play
+// For audio questions, track full plays and show description only after 2nd FULL play
 if(isAudioQuestion) {
-// Reset play counter
+// Reset counters
 audioEl.dataset.playCount = '0';
-// Remove old listener if exists
-if(audioEl._playHandler) {
-audioEl.removeEventListener('play', audioEl._playHandler);
-}
-// Add play listener
+audioEl.dataset.hasCompleted = 'false';
+// Remove old listeners if exists
+if(audioEl._playHandler) audioEl.removeEventListener('play', audioEl._playHandler);
+if(audioEl._endHandler) audioEl.removeEventListener('ended', audioEl._endHandler);
+
+// Track when audio fully completes
+audioEl._endHandler = function() {
+audioEl.dataset.hasCompleted = 'true';
+};
+audioEl.addEventListener('ended', audioEl._endHandler);
+
+// Add play listener - only counts if previous play completed
 audioEl._playHandler = function() {
+const hasCompleted = audioEl.dataset.hasCompleted === 'true';
 let count = parseInt(audioEl.dataset.playCount || '0');
+
+// Only count this play if the previous one completed
+if(hasCompleted || count === 0) {
 count++;
 audioEl.dataset.playCount = count.toString();
-// Show description on 2nd play
+audioEl.dataset.hasCompleted = 'false'; // Reset for next time
+}
+
+// Show description on 2nd full play
 if(count === 2) {
 const descId = useStep4 ? 'writingDescription4' : 'writingDescription';
 const desc = document.getElementById(descId);
@@ -1195,7 +1218,9 @@ if(e.data.size > 0) audioChunks.push(e.data);
 };
 
 mediaRecorder.onstop = async () => {
-const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+// Use mp4 for Safari compatibility, fallback to webm
+const mimeType = MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : 'audio/webm';
+const audioBlob = new Blob(audioChunks, { type: mimeType });
 currentAudioBlob = audioBlob;
 const audioUrl = URL.createObjectURL(audioBlob);
 document.getElementById('recordedAudio').src = audioUrl;
@@ -1257,7 +1282,9 @@ if(e.data.size > 0) audioChunks.push(e.data);
 };
 
 mediaRecorder.onstop = async () => {
-const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+// Use mp4 for Safari compatibility, fallback to webm
+const mimeType = MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : 'audio/webm';
+const audioBlob = new Blob(audioChunks, { type: mimeType });
 currentAudioBlob = audioBlob;
 const audioUrl = URL.createObjectURL(audioBlob);
 document.getElementById('recordedAudio4').src = audioUrl;
@@ -1345,7 +1372,10 @@ const errorEl = document.getElementById(useStep4 ? 'uploadError4' : 'uploadError
 const errorTextEl = document.getElementById(useStep4 ? 'uploadErrorText4' : 'uploadErrorText');
 
 if(statusEl) statusEl.style.display = 'block';
-if(errorEl) errorEl.style.display = 'none';
+if(errorEl) {
+errorEl.style.display = 'none';
+errorEl.classList.remove('show');
+}
 
 try {
 const formData = new FormData();
@@ -1377,6 +1407,7 @@ if(statusEl) statusEl.style.display = 'none';
 if(errorEl) {
 errorTextEl.textContent = 'Erro ao enviar: ' + (err.message || 'Tente novamente');
 errorEl.style.display = 'block';
+errorEl.classList.add('show');
 }
 }
 return false;
