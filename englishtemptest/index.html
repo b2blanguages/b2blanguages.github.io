@@ -1013,29 +1013,20 @@ const nextBtnEl = document.getElementById(useStep4 ? 'writingNextBtn4' : 'writin
 
 if(titleEl) titleEl.textContent = task.title;
 
-// For task 2 (first audio question), hide description initially, show on 2nd play
-const isFirstAudioQuestion = currentWritingTask === 2;
+// For audio questions (tasks 2 and 3, indices 2 and 3), hide description initially, show on 2nd play
+const isAudioQuestion = task.type === 'audio';
 if(descEl) {
-if(isFirstAudioQuestion && task.type === 'audio') {
-// Hide description initially for first audio question
+if(isAudioQuestion) {
+// Hide description initially for audio questions
 descEl.style.display = 'none';
 descEl.classList.add('description-hidden');
-// Add hint text
-if(!document.getElementById('descHint')) {
-const hint = document.createElement('p');
-hint.id = 'descHint';
-hint.className = 'description-hint';
-hint.textContent = 'Ouça a pergunta. A descrição aparecerá na 2ª reprodução.';
-descEl.parentNode.insertBefore(hint, descEl);
-}
+// Store description in data attribute for later
+descEl.dataset.description = task.description;
 } else {
-// Show normally for other tasks
+// Show normally for writing tasks
 descEl.textContent = task.description;
 descEl.style.display = 'block';
 descEl.classList.remove('description-hidden');
-// Remove hint if exists
-const hint = document.getElementById('descHint');
-if(hint) hint.remove();
 }
 }
 
@@ -1077,8 +1068,8 @@ if(audioEl && audioContainerEl && task.audioUrl) {
 audioEl.src = task.audioUrl;
 audioContainerEl.style.display = 'block';
 
-// For first audio question (task 2), track plays and show description on 2nd play
-if(isFirstAudioQuestion) {
+// For audio questions, track plays and show description on 2nd play
+if(isAudioQuestion) {
 // Reset play counter
 audioEl.dataset.playCount = '0';
 // Remove old listener if exists
@@ -1092,14 +1083,13 @@ count++;
 audioEl.dataset.playCount = count.toString();
 // Show description on 2nd play
 if(count === 2) {
-const desc = document.getElementById('writingDescription4');
-const hint = document.getElementById('descHint');
-if(desc) {
-desc.textContent = task.description;
+const descId = useStep4 ? 'writingDescription4' : 'writingDescription';
+const desc = document.getElementById(descId);
+if(desc && desc.dataset.description) {
+desc.textContent = desc.dataset.description;
 desc.style.display = 'block';
 desc.classList.remove('description-hidden');
 }
-if(hint) hint.remove();
 }
 };
 audioEl.addEventListener('play', audioEl._playHandler);
@@ -1349,12 +1339,13 @@ document.getElementById('timerDisplay').textContent =
 }
 
 async function uploadToCloudinary(audioBlob) {
-const statusEl = document.getElementById('uploadStatus');
-const errorEl = document.getElementById('uploadError');
-const errorTextEl = document.getElementById('uploadErrorText');
+const useStep4 = currentWritingTask >= 2;
+const statusEl = document.getElementById(useStep4 ? 'uploadStatus4' : 'uploadStatus');
+const errorEl = document.getElementById(useStep4 ? 'uploadError4' : 'uploadError');
+const errorTextEl = document.getElementById(useStep4 ? 'uploadErrorText4' : 'uploadErrorText');
 
-statusEl.style.display = 'block';
-errorEl.style.display = 'none';
+if(statusEl) statusEl.style.display = 'block';
+if(errorEl) errorEl.style.display = 'none';
 
 try {
 const formData = new FormData();
@@ -1375,14 +1366,19 @@ const data = await response.json();
 // Store the Cloudinary URL
 writingAnswers[currentWritingTask] = data.secure_url;
 
-statusEl.style.display = 'none';
+if(statusEl) statusEl.style.display = 'none';
 return true;
 
 } catch(err) {
 console.error('Upload error:', err);
-statusEl.style.display = 'none';
+// Only show error if upload actually failed (no URL saved)
+if(!writingAnswers[currentWritingTask]) {
+if(statusEl) statusEl.style.display = 'none';
+if(errorEl) {
 errorTextEl.textContent = 'Erro ao enviar: ' + (err.message || 'Tente novamente');
 errorEl.style.display = 'block';
+}
+}
 return false;
 }
 }
