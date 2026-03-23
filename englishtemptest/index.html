@@ -181,37 +181,43 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--gray-dark);li
 /* AUDIO RECORDER STYLES */
 .question-audio-container{background:var(--bg);padding:16px;border-radius:var(--border-radius);border:1px solid #e5e5e5}
 .audio-recorder-container{margin:24px 0}
-.audio-recorder-box{background:var(--bg);border:2px dashed #ccc;border-radius:var(--border-radius);padding:32px;text-align:center;transition:var(--transition)}
-.audio-recorder-box.recording{border-color:var(--red);background:rgba(140,49,36,0.05)}
-.audio-recorder-box.has-recording{border-color:#28a745;background:rgba(40,167,69,0.05)}
-.recorder-status{margin-bottom:20px}
-.recorder-status i{font-size:48px;color:var(--gray-light);margin-bottom:12px;display:block}
+.audio-recorder-box{background:var(--white);border:2px solid #e5e5e5;border-radius:16px;padding:40px 24px;text-align:center;transition:var(--transition)}
+.audio-recorder-box.recording{border-color:var(--red);background:rgba(140,49,36,0.03)}
+.audio-recorder-box.has-recording{border-color:#28a745;border-style:solid;background:rgba(40,167,69,0.03)}
+.recorder-status{margin-bottom:24px}
+.recorder-status i{font-size:28px;color:var(--gray-light);margin-bottom:8px;display:block}
 .recorder-status.recording i{color:var(--red);animation:pulse 1.5s infinite}
-/* Hide audio element errors/pseudo elements */
 audio::-webkit-media-controls-panel{display:flex!important}
 audio:invalid,audio::-webkit-media-controls-enclosure{opacity:1!important}
 audio::-webkit-media-controls-error{display:none!important}
 audio[src=""],audio:not([src]){display:none!important}
 @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.1)}100%{transform:scale(1)}}
-.recorder-status p{color:var(--gray);font-size:0.95rem;margin:0}
+@keyframes recording-glow{0%{box-shadow:0 0 0 0 rgba(220,53,69,0.4)}70%{box-shadow:0 0 0 16px rgba(220,53,69,0)}100%{box-shadow:0 0 0 0 rgba(220,53,69,0)}}
+.recorder-status p{color:var(--gray);font-size:0.9rem;margin:0}
 .recorder-controls{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
-.btn-record{background:var(--red);color:var(--white);padding:14px 28px;border:none;border-radius:var(--border-radius);font-size:1rem;font-weight:600;cursor:pointer;transition:var(--transition);display:inline-flex;align-items:center;gap:8px}
-.btn-record:hover:not(:disabled){background:var(--red-light);transform:translateY(-2px);box-shadow:var(--shadow-hover)}
-.btn-record:disabled{background:var(--gray-light);cursor:not-allowed}
-.btn-stop{background:#dc3545;color:var(--white);padding:14px 28px;border:none;border-radius:var(--border-radius);font-size:1rem;font-weight:600;cursor:pointer;transition:var(--transition);display:inline-flex;align-items:center;gap:8px;animation:pulse 1.5s infinite}
-.btn-stop:hover{background:#c82333}
-.recording-timer{color:var(--red);font-weight:600;font-size:1.1rem;margin-top:16px}
-.audio-playback audio{width:100%;max-width:400px}
+.btn-record{background:var(--red);color:var(--white);width:80px;height:80px;border:none;border-radius:50%;font-size:0.85rem;font-weight:600;cursor:pointer;transition:var(--transition);display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;box-shadow:0 4px 16px rgba(140,49,36,0.25)}
+.btn-record i{font-size:20px}
+.btn-record:hover:not(:disabled){background:var(--red-light);transform:scale(1.05);box-shadow:0 6px 24px rgba(140,49,36,0.35)}
+.btn-record:disabled{background:var(--gray-light);cursor:not-allowed;box-shadow:none}
+.btn-stop{background:#dc3545;color:var(--white);width:72px;height:72px;border:none;border-radius:50%;font-size:0.85rem;font-weight:600;cursor:pointer;transition:var(--transition);display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;animation:recording-glow 2s infinite}
+.btn-stop i{font-size:18px}
+.btn-stop:hover{background:#c82333;transform:scale(1.05)}
+.recording-timer{color:var(--red);font-weight:700;font-size:2rem;margin-top:20px;font-variant-numeric:tabular-nums;letter-spacing:2px}
+.recording-timer i{display:none}
+.audio-playback{display:flex;flex-direction:column;align-items:center}
+.audio-playback audio{width:100%;max-width:380px}
+.audio-success-msg{display:flex;align-items:center;gap:8px;color:#28a745;font-size:0.95rem;font-weight:500;margin-bottom:16px}
+.audio-success-msg i{font-size:18px}
+.btn-rerecord{background:transparent;color:var(--gray);border:1.5px solid #ddd;padding:10px 24px;border-radius:var(--border-radius);font-size:0.9rem;font-weight:500;cursor:pointer;transition:var(--transition);display:inline-flex;align-items:center;gap:6px;margin-top:16px}
+.btn-rerecord:hover{border-color:var(--gray);color:var(--gray-dark);background:var(--bg)}
 .upload-progress{color:var(--gray);font-size:0.9rem}
-/* Hide audio element errors */
 audio::-webkit-media-controls-error{display:none!important}
 audio::before,audio::after{content:none!important}
-/* Force hide error messages by default */
 .upload-error{display:none!important}
 .upload-error.show{display:block!important}
-/* Description hidden state for audio questions */
 .description-hidden{display:none}
 .description-hint{font-size:0.85rem;color:var(--gray-light);font-style:italic;margin-top:8px}
+.audio-hint{color:var(--gray-light);font-size:0.8rem;margin-top:12px;margin-bottom:0}
 </style>
 </head>
 <body>
@@ -315,51 +321,37 @@ Próxima Página
 
 <!-- Audio recording area -->
 <div id="audioRecorderContainer" class="audio-recorder-container" style="display:none;">
-<!-- 30 seconds hint -->
-<div style="background:rgba(40,167,69,0.1);border-left:3px solid #28a745;padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:0.9rem;color:var(--gray-dark);">
-<i class="fas fa-info-circle" style="color:#28a745;margin-right:8px;"></i>
-<strong>30 segundos</strong> de resposta em áudio é suficiente
-</div>
 <div class="audio-recorder-box" id="recorderBox">
 <div class="recorder-status" id="recorderStatus">
 <i class="fas fa-microphone"></i>
-<p>Clique no botão abaixo para gravar sua resposta</p>
+<p>Grave sua resposta em áudio</p>
 </div>
 <div class="recorder-controls" id="recorderControls">
 <button type="button" class="btn btn-record" id="recordBtn" onclick="startRecording()">
-<i class="fas fa-circle"></i> Gravar
+<i class="fas fa-microphone"></i> Gravar
 </button>
 <button type="button" class="btn btn-stop" id="stopBtn" onclick="stopRecording()" style="display:none;">
 <i class="fas fa-stop"></i> Parar
 </button>
 </div>
 <div class="recording-timer" id="recordingTimer" style="display:none;">
-<i class="fas fa-clock"></i> <span id="timerDisplay">00:00</span>
+<span id="timerDisplay">00:00</span>
 </div>
-<!-- Ready message (small) -->
-<div class="audio-ready" id="audioReady" style="display:none;margin-top:16px;color:#28a745;font-size:0.85rem;">
-<i class="fas fa-check-circle"></i> Áudio pronto
-</div>
-<!-- Can re-record message (larger) -->
-<div class="audio-rerecord-msg" id="audioRerecordMsg" style="display:none;margin-top:8px;padding:12px;background:rgba(140,49,36,0.05);border-radius:8px;color:var(--gray-dark);font-size:0.95rem;">
-<i class="fas fa-info-circle" style="color:var(--red);margin-right:8px;"></i>
-Você pode regravar se quiser
-</div>
-<div class="audio-playback" id="audioPlayback" style="display:none;margin-top:16px;">
-<p style="font-size:0.9rem;color:var(--gray);margin-bottom:8px;"><i class="fas fa-play-circle"></i> Sua gravação:</p>
+<p class="audio-hint" id="audioHint">~30 segundos é suficiente</p>
+<div class="audio-ready" id="audioReady" style="display:none;"></div>
+<div class="audio-rerecord-msg" id="audioRerecordMsg" style="display:none;"></div>
+<div class="audio-playback" id="audioPlayback" style="display:none;margin-top:20px;">
+<div class="audio-success-msg"><i class="fas fa-check-circle"></i> Áudio gravado com sucesso</div>
 <audio id="recordedAudio" controls style="width:100%;"></audio>
-<div style="margin-top:12px;">
-<button type="button" class="btn btn-secondary" id="rerecordBtn" onclick="resetRecording()">
+<button type="button" class="btn btn-rerecord" id="rerecordBtn" onclick="resetRecording()">
 <i class="fas fa-redo"></i> Regravar
 </button>
-</div>
 </div>
 <div class="upload-status" id="uploadStatus" style="display:none;margin-top:12px;">
 <div class="upload-progress">
 <i class="fas fa-spinner fa-spin"></i> <span id="uploadText">Enviando áudio...</span>
 </div>
 </div>
-<!-- Success message (only shown after clicking Next) -->
 <div class="upload-success" id="uploadSuccess" style="display:none;margin-top:12px;color:#28a745;">
 <i class="fas fa-check-circle"></i> Áudio enviado com sucesso!
 </div>
@@ -399,42 +391,31 @@ Próxima
 </div>
 <!-- Audio recording area -->
 <div id="audioRecorderContainer4" class="audio-recorder-container" style="display:none;">
-<!-- 30 seconds hint -->
-<div style="background:rgba(40,167,69,0.1);border-left:3px solid #28a745;padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:0.9rem;color:var(--gray-dark);">
-<i class="fas fa-info-circle" style="color:#28a745;margin-right:8px;"></i>
-<strong>30 segundos</strong> de resposta em áudio é suficiente
-</div>
 <div class="audio-recorder-box" id="recorderBox4">
 <div class="recorder-status" id="recorderStatus4">
 <i class="fas fa-microphone"></i>
-<p>Clique no botão abaixo para gravar sua resposta</p>
+<p>Grave sua resposta em áudio</p>
 </div>
 <div class="recorder-controls" id="recorderControls4">
 <button type="button" class="btn btn-record" id="recordBtn4" onclick="startRecording4()">
-<i class="fas fa-circle"></i> Gravar
+<i class="fas fa-microphone"></i> Gravar
 </button>
 <button type="button" class="btn btn-stop" id="stopBtn4" onclick="stopRecording4()" style="display:none;">
 <i class="fas fa-stop"></i> Parar
 </button>
 </div>
 <div class="recording-timer" id="recordingTimer4" style="display:none;">
-<i class="fas fa-clock"></i> <span id="timerDisplay4">00:00</span>
+<span id="timerDisplay4">00:00</span>
 </div>
-<div class="audio-ready" id="audioReady4" style="display:none;margin-top:16px;color:#28a745;font-size:0.85rem;">
-<i class="fas fa-check-circle"></i> Áudio pronto
-</div>
-<div class="audio-rerecord-msg" id="audioRerecordMsg4" style="display:none;margin-top:8px;padding:12px;background:rgba(140,49,36,0.05);border-radius:8px;color:var(--gray-dark);font-size:0.95rem;">
-<i class="fas fa-info-circle" style="color:var(--red);margin-right:8px;"></i>
-Você pode regravar se quiser
-</div>
-<div class="audio-playback" id="audioPlayback4" style="display:none;margin-top:16px;">
-<p style="font-size:0.9rem;color:var(--gray);margin-bottom:8px;"><i class="fas fa-play-circle"></i> Sua gravação:</p>
+<p class="audio-hint" id="audioHint4">~30 segundos é suficiente</p>
+<div class="audio-ready" id="audioReady4" style="display:none;"></div>
+<div class="audio-rerecord-msg" id="audioRerecordMsg4" style="display:none;"></div>
+<div class="audio-playback" id="audioPlayback4" style="display:none;margin-top:20px;">
+<div class="audio-success-msg"><i class="fas fa-check-circle"></i> Áudio gravado com sucesso</div>
 <audio id="recordedAudio4" controls style="width:100%;"></audio>
-<div style="margin-top:12px;">
-<button type="button" class="btn btn-secondary" id="rerecordBtn4" onclick="resetRecording4()">
+<button type="button" class="btn btn-rerecord" id="rerecordBtn4" onclick="resetRecording4()">
 <i class="fas fa-redo"></i> Regravar
 </button>
-</div>
 </div>
 <div class="upload-status" id="uploadStatus4" style="display:none;margin-top:12px;">
 <div class="upload-progress">
@@ -1168,7 +1149,8 @@ document.getElementById('uploadSuccess4').style.display = 'none';
 document.getElementById('uploadError4').style.display = 'none';
 document.getElementById('recorderStatus4').classList.remove('recording');
 document.getElementById('recorderBox4').classList.remove('recording', 'has-recording');
-document.getElementById('recorderStatus4').innerHTML = '<i class="fas fa-microphone"></i><p>Clique no botão abaixo para gravar sua resposta</p>';
+document.getElementById('recorderStatus4').innerHTML = '<i class="fas fa-microphone"></i><p>Grave sua resposta em áudio</p>';
+document.getElementById('audioHint4').style.display = 'block';
 }
 
 // Audio Recording Functions
@@ -1193,7 +1175,8 @@ document.getElementById('uploadSuccess').style.display = 'none';
 document.getElementById('uploadError').style.display = 'none';
 document.getElementById('recorderStatus').classList.remove('recording');
 document.getElementById('recorderBox').classList.remove('recording', 'has-recording');
-document.getElementById('recorderStatus').innerHTML = '<i class="fas fa-microphone"></i><p>Clique no botão abaixo para gravar sua resposta</p>';
+document.getElementById('recorderStatus').innerHTML = '<i class="fas fa-microphone"></i><p>Grave sua resposta em áudio</p>';
+document.getElementById('audioHint').style.display = 'block';
 }
 
 function showAudioPlayback(url) {
@@ -1243,6 +1226,7 @@ document.getElementById('stopBtn').style.display = 'inline-flex';
 document.getElementById('recordingTimer').style.display = 'block';
 document.getElementById('recorderStatus').classList.add('recording');
 document.querySelector('.audio-recorder-box').classList.add('recording');
+document.getElementById('audioHint').style.display = 'none';
 
 // Start timer
 recordingTimerInterval = setInterval(updateRecordingTimer, 1000);
@@ -1305,6 +1289,7 @@ document.getElementById('stopBtn4').style.display = 'inline-flex';
 document.getElementById('recordingTimer4').style.display = 'block';
 document.getElementById('recorderStatus4').classList.add('recording');
 document.getElementById('recorderBox4').classList.add('recording');
+document.getElementById('audioHint4').style.display = 'none';
 
 // Start timer for step 4
 recordingTimerInterval = setInterval(() => {
@@ -1352,7 +1337,8 @@ document.getElementById('uploadSuccess4').style.display = 'none';
 document.getElementById('uploadError4').style.display = 'none';
 document.getElementById('recorderStatus4').classList.remove('recording');
 document.getElementById('recorderBox4').classList.remove('recording', 'has-recording');
-document.getElementById('recorderStatus4').innerHTML = '<i class="fas fa-microphone"></i><p>Clique no botão abaixo para gravar sua resposta</p>';
+document.getElementById('recorderStatus4').innerHTML = '<i class="fas fa-microphone"></i><p>Grave sua resposta em áudio</p>';
+document.getElementById('audioHint4').style.display = 'block';
 
 writingAnswers[currentWritingTask] = '';
 }
