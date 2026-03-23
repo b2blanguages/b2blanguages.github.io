@@ -1150,6 +1150,7 @@ document.getElementById('uploadError4').style.display = 'none';
 document.getElementById('recorderStatus4').classList.remove('recording');
 document.getElementById('recorderBox4').classList.remove('recording', 'has-recording');
 document.getElementById('recorderStatus4').innerHTML = '<i class="fas fa-microphone"></i><p>Grave sua resposta em áudio</p>';
+document.getElementById('recorderStatus4').style.display = 'block';
 document.getElementById('audioHint4').style.display = 'block';
 }
 
@@ -1176,6 +1177,7 @@ document.getElementById('uploadError').style.display = 'none';
 document.getElementById('recorderStatus').classList.remove('recording');
 document.getElementById('recorderBox').classList.remove('recording', 'has-recording');
 document.getElementById('recorderStatus').innerHTML = '<i class="fas fa-microphone"></i><p>Grave sua resposta em áudio</p>';
+document.getElementById('recorderStatus').style.display = 'block';
 document.getElementById('audioHint').style.display = 'block';
 }
 
@@ -1187,7 +1189,7 @@ document.getElementById('audioReady').style.display = 'block';
 document.getElementById('audioRerecordMsg').style.display = 'block';
 document.getElementById('recordBtn').style.display = 'none';
 document.getElementById('recorderBox').classList.add('has-recording');
-document.getElementById('recorderStatus').innerHTML = '<i class="fas fa-check-circle" style="color:#28a745;"></i><p>Áudio carregado</p>';
+document.getElementById('recorderStatus').style.display = 'none';
 }
 
 async function startRecording() {
@@ -1276,6 +1278,7 @@ document.getElementById('audioPlayback4').style.display = 'block';
 document.getElementById('audioReady4').style.display = 'block';
 document.getElementById('audioRerecordMsg4').style.display = 'block';
 document.getElementById('recorderBox4').classList.add('has-recording');
+document.getElementById('recorderStatus4').style.display = 'none';
 
 stream.getTracks().forEach(track => track.stop());
 };
