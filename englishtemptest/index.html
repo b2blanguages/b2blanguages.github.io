@@ -1045,6 +1045,17 @@ document.getElementById('audioReady4').style.display = 'block';
 document.getElementById('audioRerecordMsg4').style.display = 'block';
 document.getElementById('recordBtn4').style.display = 'none';
 document.getElementById('recorderBox4').classList.add('has-recording');
+document.getElementById('recorderStatus4').style.display = 'none';
+document.getElementById('audioHint4').style.display = 'none';
+} else {
+document.getElementById('recordedAudio').src = savedUrl;
+document.getElementById('audioPlayback').style.display = 'flex';
+document.getElementById('audioReady').style.display = 'block';
+document.getElementById('audioRerecordMsg').style.display = 'block';
+document.getElementById('recordBtn').style.display = 'none';
+document.getElementById('recorderBox').classList.add('has-recording');
+document.getElementById('recorderStatus').style.display = 'none';
+document.getElementById('audioHint').style.display = 'none';
 }
 }
 document.getElementById('writingTextarea').style.display = 'none';
