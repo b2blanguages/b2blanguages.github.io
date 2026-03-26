@@ -1534,11 +1534,11 @@ mcScore += 1.9;
 
 // Mastery-based level determination (Cambridge-style)
 const bands = [
-  { name: 'A1-A2', start: 0, end: 12, threshold: 0.7 },
-  { name: 'A2-B1', start: 12, end: 20, threshold: 0.7 },
-  { name: 'B1-B2', start: 20, end: 30, threshold: 0.7 },
-  { name: 'B2-C1', start: 30, end: 36, threshold: 0.7 },
-  { name: 'C1-C2', start: 36, end: 40, threshold: 0.7 }
+  { name: 'A1-A2', start: 0, end: 12, threshold: 2/3 },
+  { name: 'A2-B1', start: 12, end: 20, threshold: 2/3 },
+  { name: 'B1-B2', start: 20, end: 30, threshold: 2/3 },
+  { name: 'B2-C1', start: 30, end: 36, threshold: 2/3 },
+  { name: 'C1-C2', start: 36, end: 40, threshold: 2/3 }
 ];
 const bandResults = bands.map(band => {
   let correct = 0;
